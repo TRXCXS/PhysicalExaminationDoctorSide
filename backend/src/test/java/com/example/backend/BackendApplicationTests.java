@@ -1,6 +1,7 @@
 package com.example.backend;
 
 import com.example.backend.dto.DoctorLoginFormDTO;
+import com.example.backend.entity.Doctor;
 import com.example.backend.service.DoctorService;
 import com.example.backend.utils.SHA256;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,21 @@ class BackendApplicationTests {
         ));
         System.out.println(doctorService.getDoctorByDocCodeAndPassword(
                 new DoctorLoginFormDTO("ssm", "456")
+        ));
+
+        doctorService.saveDoctor(
+                new Doctor(
+                        100,
+                        "bq",
+                        "扁鹊",
+                        "000",
+                        1,
+                        1
+                )
+        );
+
+        System.out.println(doctorService.getDoctorByDocCodeAndPassword(
+                new DoctorLoginFormDTO("bq", "000")
         ));
     }
 }

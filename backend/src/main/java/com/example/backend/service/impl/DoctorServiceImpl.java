@@ -50,4 +50,17 @@ public class DoctorServiceImpl extends MPJBaseServiceImpl<DoctorMapper, Doctor> 
 
         return Result.success(doctor);
     }
+
+    @Override
+    public Result saveDoctor(@NotNull Doctor doctor) throws Exception {
+        // 密码明文加密
+        doctor.setPassword(SHA256.encrypt(doctor.getPassword()));
+        int state = doctorMapper.insert(doctor);
+
+        if (state == 0) {
+            return Result.fail("插入失败！");
+        } else {
+            return Result.success();
+        }
+    }
 }

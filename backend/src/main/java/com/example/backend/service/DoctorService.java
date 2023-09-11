@@ -11,4 +11,6 @@ public interface DoctorService extends MPJBaseService<Doctor> {
     Result getDoctorByDocCodeAndPassword(DoctorLoginFormDTO doctorLoginFormDTO) throws Exception;
 
     Result getDoctorByDocCode(String docCode);
+
+    Result saveDoctor(Doctor doctor) throws Exception;
 }
