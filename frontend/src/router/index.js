@@ -15,7 +15,7 @@ const routes = [
   },
   {
     path:'/orderslist',
-    name:'ordersList',
+    name:'orderslist',
     component:OrdersList
   },
   {

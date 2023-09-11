@@ -26,7 +26,7 @@ import { useRouter } from 'vue-router'
 import { setSessionStorage,cleanForm,isFormLack } from '@/common';
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = 'http://localhost:9090/tijian'
 export default {
     setup() {
         //声明需要的数据变量
@@ -37,6 +37,11 @@ export default {
                 password: ''
             }
         });
+        //配合注释路由守卫看页面用
+        // function login() {
+        //     console.log('here')
+        //     router.push('/orderslist')
+        // }
         function login() {
             let map=new Map([
                 ['docCode','医生编码'],
@@ -56,7 +61,7 @@ export default {
                     let doctor = response.data.data;
                     if (doctor) {
                         setSessionStorage('doctor', doctor)
-                        router.push('/ordersList')
+                        router.push('/orderslist')
                     } else {
                         ElMessage({
                             type: 'error',
