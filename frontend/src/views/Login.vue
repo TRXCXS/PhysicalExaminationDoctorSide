@@ -26,7 +26,7 @@ import { useRouter } from 'vue-router'
 import { setSessionStorage,cleanForm,isFormLack } from '@/common';
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-axios.defaults.baseURL = 'http://localhost:9090/tijian'
+axios.defaults.baseURL = 'http://localhost:9090'
 export default {
     setup() {
         //声明需要的数据变量

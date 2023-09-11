@@ -70,7 +70,7 @@
 import { reactive, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios'
-axios.defaults.baseURL = 'http://localhost:9090/tijian'
+axios.defaults.baseURL = 'http://localhost:9090'
 export default {
     setup() {
         const router = useRoute();

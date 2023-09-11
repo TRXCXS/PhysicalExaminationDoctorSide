@@ -46,7 +46,7 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { isFormLack } from '../common'
 import { ElMessage } from 'element-plus'
-axios.defaults.baseURL = 'http://localhost:9090/tijian'
+axios.defaults.baseURL = 'http://localhost:9090'
 export default {
     setup() {
         const router = useRouter();
