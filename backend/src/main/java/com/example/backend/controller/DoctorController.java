@@ -16,7 +16,7 @@ public class DoctorController {
     private final DoctorService doctorService;
 
     @PostMapping("/login")
-    public Result login(@RequestBody DoctorLoginFormDTO doctorLoginFormDTO) {
+    public Result login(@RequestBody DoctorLoginFormDTO doctorLoginFormDTO) throws Exception {
         return doctorService.getDoctorByDocCodeAndPassword(doctorLoginFormDTO);
     }
 }
