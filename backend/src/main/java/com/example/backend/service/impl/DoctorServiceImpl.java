@@ -53,6 +53,12 @@ public class DoctorServiceImpl extends MPJBaseServiceImpl<DoctorMapper, Doctor> 
 
     @Override
     public Result saveDoctor(@NotNull Doctor doctor) throws Exception {
+        /**
+         * 传入的Doctor对象，主键自增的字段不应该有值。
+         * ①如果有的话，按照Doctor对象的值进行插入。————错误情况
+         * ②没有的话，才进行自增。————正确情况
+         */
+
         // 密码明文加密
         doctor.setPassword(SHA256.encrypt(doctor.getPassword()));
         int state = doctorMapper.insert(doctor);

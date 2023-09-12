@@ -1,6 +1,5 @@
 package com.example.backend.dto;
 
-import com.example.backend.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponseDTO {
-    private List<Order> orderList;
+    private List<OrderResponseDTOBody> orderResponseDTOBodyList;
 
     // 总记录数
     private Integer totalCount;

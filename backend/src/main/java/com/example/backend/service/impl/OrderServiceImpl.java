@@ -1,12 +1,19 @@
 package com.example.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.backend.dto.OrderRequestDTO;
 import com.example.backend.dto.OrderResponseDTO;
+import com.example.backend.dto.OrderResponseDTOBody;
+import com.example.backend.entity.Hospital;
 import com.example.backend.entity.Order;
+import com.example.backend.entity.Setmeal;
+import com.example.backend.entity.User;
 import com.example.backend.mapper.OrderMapper;
 import com.example.backend.service.OrderService;
 import com.example.backend.utils.Result;
 import com.github.yulichang.base.MPJBaseServiceImpl;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -18,6 +25,27 @@ import java.util.List;
 public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> implements OrderService {
     private final OrderMapper orderMapper;
 
+    public void checkOrderRequestDTO(MPJLambdaWrapper<Order> mpjLambdaWrapper, @NotNull OrderRequestDTO orderRequestDTO) {
+        if (!orderRequestDTO.getUserId().equals("")) {
+            mpjLambdaWrapper.like(User::getUserId, orderRequestDTO.getUserId());
+        }
+        if (!orderRequestDTO.getRealName().equals("")) {
+            mpjLambdaWrapper.like(User::getRealName, orderRequestDTO.getRealName());
+        }
+        if (orderRequestDTO.getSex() != -1) {
+            mpjLambdaWrapper.eq(User::getSex, orderRequestDTO.getSex());
+        }
+        if (orderRequestDTO.getSmId() != -1) {
+            mpjLambdaWrapper.eq(Order::getSmId, orderRequestDTO.getSmId());
+        }
+        if (!orderRequestDTO.getOrderDate().equals("")) {
+            mpjLambdaWrapper.eq(Order::getOrderDate, orderRequestDTO.getOrderDate());
+        }
+        if (orderRequestDTO.getState() != -1) {
+            mpjLambdaWrapper.eq(Order::getState, orderRequestDTO.getState());
+        }
+    }
+
     /**
      * 获取符合orderRequestDTO条件的记录数
      *
@@ -26,7 +54,12 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
      */
     @Override
     public int getNumberOfOrdersByOrderRequestDTO(@NotNull OrderRequestDTO orderRequestDTO) {
-        return 0;
+        MPJLambdaWrapper<Order> mpjLambdaWrapper = new MPJLambdaWrapper<Order>()
+                .leftJoin(User.class, User::getUserId, Order::getUserId);
+
+        checkOrderRequestDTO(mpjLambdaWrapper, orderRequestDTO);
+
+        return Math.toIntExact(orderMapper.selectCount(mpjLambdaWrapper));
     }
 
     /**
@@ -36,8 +69,33 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
      * @return
      */
     @Override
-    public List<Order> getOrderListByOrderRequestDTO(OrderRequestDTO orderRequestDTO) {
-        return null;
+    public List<OrderResponseDTOBody> getOrderResponseDTOBodyListByOrderRequestDTO(OrderRequestDTO orderRequestDTO) {
+        MPJLambdaWrapper<Order> mpjLambdaWrapper = new MPJLambdaWrapper<Order>()
+                .select(Order::getOrderId)
+                .select(User::getUserId, User::getRealName, User::getSex)
+                .selectAs(Setmeal::getName, OrderResponseDTOBody::getSetmealName)
+                .selectAs(Hospital::getName, OrderResponseDTOBody::getHospitalName)
+                .select(Order::getOrderDate)
+
+                .leftJoin(User.class, User::getUserId, Order::getUserId)
+                .leftJoin(Setmeal.class, Setmeal::getSmId, Order::getSmId)
+                .leftJoin(Hospital.class, Hospital::getHpId, Order::getHpId);
+
+        checkOrderRequestDTO(mpjLambdaWrapper, orderRequestDTO);
+
+        IPage<OrderResponseDTOBody> iPage = orderMapper.selectJoinPage(
+                new Page<>(orderRequestDTO.getBeginIndex(), orderRequestDTO.getMaxLineNumberOfPage()),
+                OrderResponseDTOBody.class,
+                mpjLambdaWrapper
+        );
+
+        List<OrderResponseDTOBody> records = iPage.getRecords();
+        int totalCount = records.size(),
+                lastIndex = Math.min(orderRequestDTO.getBeginIndex() + orderRequestDTO.getMaxLineNumberOfPage(), totalCount);
+
+        return iPage.getRecords().subList(
+                orderRequestDTO.getBeginIndex(), lastIndex
+        );
     }
 
     @Override
@@ -87,8 +145,8 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
         orderRequestDTO.setBeginIndex(beginIndex);
 
         // 查询记录列表
-        List<Order> orderList = getOrderListByOrderRequestDTO(orderRequestDTO);
-        orderResponseDTO.setOrderList(orderList);
+        List<OrderResponseDTOBody> orderResponseDTOBodyList = getOrderResponseDTOBodyListByOrderRequestDTO(orderRequestDTO);
+        orderResponseDTO.setOrderResponseDTOBodyList(orderResponseDTOBodyList);
 
         return Result.success(orderResponseDTO);
     }

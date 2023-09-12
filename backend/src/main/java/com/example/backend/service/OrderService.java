@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.OrderRequestDTO;
+import com.example.backend.dto.OrderResponseDTOBody;
 import com.example.backend.entity.Order;
 import com.example.backend.utils.Result;
 import com.github.yulichang.base.MPJBaseService;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface OrderService extends MPJBaseService<Order> {
     int getNumberOfOrdersByOrderRequestDTO(OrderRequestDTO orderRequestDTO);
 
-    List<Order> getOrderListByOrderRequestDTO(OrderRequestDTO orderRequestDTO);
+    List<OrderResponseDTOBody> getOrderResponseDTOBodyListByOrderRequestDTO(OrderRequestDTO orderRequestDTO);
 
     Result getOrdersByOrderRequestDTO(OrderRequestDTO orderRequestDTO);
 }
