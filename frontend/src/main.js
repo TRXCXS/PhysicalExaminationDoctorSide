@@ -1,6 +1,4 @@
-
-
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import App from './App.vue'
@@ -8,7 +6,7 @@ import router from './router'
 
 createApp(App).use(ElementPlus).use(router).mount('#app')
 
-router.beforeEach(function(to,from,next){  //这个函数会在路由跳转之前执行
+router.beforeEach(function (to, from, next) {  //这个函数会在路由跳转之前执行
 
     //确认是否放行
     //1.从sessionStorage中取出users
@@ -23,6 +21,9 @@ router.beforeEach(function(to,from,next){  //这个函数会在路由跳转之�
         }else{
             next();
         }
+    } else {
+        next();
+    }
 
-   
-    });
+
+});

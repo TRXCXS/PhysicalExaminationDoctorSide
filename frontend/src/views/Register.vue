@@ -8,10 +8,10 @@
         <el-form :model="doctor" label-width="120px">
 
             <el-form-item label="医生编码">
-                <el-input v-model="doctor.docCode" />
+                <el-input v-model="doctor.docCode"/>
             </el-form-item>
             <el-form-item label="真实姓名">
-                <el-input v-model="doctor.realName" />
+                <el-input v-model="doctor.realName"/>
             </el-form-item>
             <el-form-item label="性别">
                 <el-radio-group v-model="doctor.sex">
@@ -21,16 +21,16 @@
             </el-form-item>
             <el-form-item label="所属科室">
                 <el-radio-group v-model="doctor.deptno">
-                    <el-radio :label="1" >检验科</el-radio>
+                    <el-radio :label="1">检验科</el-radio>
                     <el-radio :label="2">内科</el-radio>
                     <el-radio :label="3">外科</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="密码">
-                <el-input v-model="doctor.password" />
+                <el-input v-model="doctor.password"/>
             </el-form-item>
             <el-form-item label="确认密码">
-                <el-input v-model="confirmPassword" @blur="confirmPwd" />
+                <el-input v-model="confirmPassword" @blur="confirmPwd"/>
             </el-form-item>
             <el-form-item>
                 <el-button type="success" @click="register">注册</el-button>
@@ -39,13 +39,14 @@
         </el-form>
     </el-card>
 </template>
-  
+
 <script>
-import { reactive, toRefs } from 'vue'
-import { useRouter } from 'vue-router'
+import {reactive, toRefs} from 'vue'
+import {useRouter} from 'vue-router'
 import axios from 'axios'
-import { isFormLack } from '../common'
-import { ElMessage } from 'element-plus'
+import {isFormLack} from '../common'
+import {ElMessage} from 'element-plus'
+
 axios.defaults.baseURL = 'http://localhost:9090'
 export default {
     setup() {
@@ -60,6 +61,7 @@ export default {
             },
             confirmPassword: ''
         })
+
         function register() {
             let map = new Map([
                 ['docCode', '医生编码'],
@@ -67,7 +69,7 @@ export default {
                 ['password', '密码'],
             ])
             let key = isFormLack(state.doctor)
-            if (key&&map.get(key)) {
+            if (key && map.get(key)) {
                 ElMessage({
                     type: 'error',
                     message: map.get(key) + '不能为空'
@@ -76,7 +78,7 @@ export default {
             }
             if (!confirmPwd()) return;
 
-            state.doctor.docId= '';
+            state.doctor.docId = '';
             console.log(state.doctor);
             axios.post('doctor/register', state.doctor)
                 .then(res => {
@@ -97,6 +99,7 @@ export default {
                     console.log(err)
                 })
         }
+
         function confirmPwd() {
             if (state.doctor.password != state.confirmPassword) {
                 ElMessage({
@@ -107,9 +110,11 @@ export default {
             }
             return true;
         }
-        function exit(){
+
+        function exit() {
             router.push('/login')
         }
+
         return {
             ...toRefs(state),
             register,
@@ -129,8 +134,8 @@ export default {
 }
 
 .box-card {
-    margin:auto;
-    margin-top:10%;
+    margin: auto;
+    margin-top: 10%;
     width: 480px;
 }
 </style>

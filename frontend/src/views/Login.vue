@@ -7,10 +7,10 @@
         </template>
         <el-form :model="loginForm" label-width="120px">
             <el-form-item label="医生编码">
-                <el-input v-model="loginForm.docCode" />
+                <el-input v-model="loginForm.docCode"/>
             </el-form-item>
             <el-form-item label="登录密码">
-                <el-input v-model="loginForm.password" />
+                <el-input v-model="loginForm.password"/>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="login">登录</el-button>
@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
-import { useRouter } from 'vue-router'
-import { setSessionStorage,cleanForm,isFormLack } from '@/common';
+import {reactive, toRefs} from 'vue'
+import {useRouter} from 'vue-router'
+import {cleanForm, isFormLack, setSessionStorage} from '@/common';
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 axios.defaults.baseURL = 'http://localhost:9090'
@@ -43,19 +43,19 @@ export default {
         //     router.push('/orderslist')
         // }
         function login() {
-            let map=new Map([
-                ['docCode','医生编码'],
-                ['password','密码']
+            let map = new Map([
+                ['docCode', '医生编码'],
+                ['password', '密码']
             ])
-            let key=isFormLack(state.loginForm)
+            let key = isFormLack(state.loginForm)
             if (key) {
                 ElMessage({
                     type: 'error',
-                    message: map.get(key)+'不能为空'
+                    message: map.get(key) + '不能为空'
                 });
                 return;
             }
-            
+
             axios.post('doctor/login', state.loginForm)
                 .then(response => {
                     let doctor = response.data.data;
@@ -75,9 +75,11 @@ export default {
                     console.log(error)
                 })
         }
+
         function toRegister() {
             router.push('/register')
         }
+
         //把数据和函数暴露出去，不然，html访问不到
         return {
             ...toRefs(state),
@@ -91,26 +93,26 @@ export default {
 
 <style lang="scss" scoped>
 .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .text {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .item {
-    margin-bottom: 18px;
+  margin-bottom: 18px;
 }
 
 .box-card {
-    width: 480px;
-    margin: auto;
-    margin-top: 10%
+  width: 480px;
+  margin: auto;
+  margin-top: 10%
 }
 
 .el-input {
-    width: 70%
+  width: 70%
 }
 </style>

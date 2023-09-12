@@ -7,17 +7,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDTO {
-    /**
-     * 预约编号
-     */
-    private Integer orderId;
-
+public class OrderRequestDTO {
     private String userId;
     private String realName;
     private Integer sex;
-
-    private String setmealName;
-    private String hospitalName;
+    private Integer smId;
     private String orderDate;
+    private Integer state;
+
+    private Integer currentPageNumber;
+    private Integer maxLineNumberOfPage;
+    private Integer beginIndex;
 }

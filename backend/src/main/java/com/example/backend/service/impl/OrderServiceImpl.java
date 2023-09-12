@@ -1,6 +1,6 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.dto.SelectOrderFormDTO;
+import com.example.backend.dto.OrderRequestDTO;
 import com.example.backend.entity.Order;
 import com.example.backend.mapper.OrderMapper;
 import com.example.backend.service.OrderService;
@@ -16,7 +16,7 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
     private final OrderMapper orderMapper;
 
     @Override
-    public Result getOrderBySelectOrderFormDTO(@NotNull SelectOrderFormDTO selectOrderFormDTO) {
+    public Result getOrdersByOrderRequestDTO(@NotNull OrderRequestDTO orderRequestDTO) {
         return null;
     }
 }
