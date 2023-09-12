@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -24,8 +25,10 @@ public class Order {
 
     private Integer state;
 
-
+    @TableField(exist = false)
     private User user;
+    @TableField(exist = false)
     private Setmeal setmeal;
+    @TableField(exist = false)
     private Hospital hospital;
 }

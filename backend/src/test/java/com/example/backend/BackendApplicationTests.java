@@ -1,11 +1,17 @@
 package com.example.backend;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.backend.dto.DoctorLoginFormDTO;
+import com.example.backend.dto.OrderRequestDTO;
+import com.example.backend.dto.OrderResponseDTO;
 import com.example.backend.entity.Doctor;
+import com.example.backend.entity.Order;
 import com.example.backend.mapper.OrderMapper;
 import com.example.backend.service.DoctorService;
 import com.example.backend.service.SetmealService;
 import com.example.backend.utils.SHA256;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,14 +61,32 @@ class BackendApplicationTests {
     }
 
     @Test
-    void MPJTest() {
-//        OrderRequestDTO orderRequestDTO = new OrderRequestDTO(
-//
-//        );
-//
-//        MPJLambdaWrapper<Order> mpjLambdaWrapper = new MPJLambdaWrapper<>();
-//
+    void OrderQueryTest() {
+        OrderRequestDTO orderRequestDTO = new OrderRequestDTO(
+                "",
+                "",
+                -1,
+                -1,
+                "",
+                -1,
+
+                1,
+                10,
+                0
+        );
+
+        MPJLambdaWrapper<Order> mpjLambdaWrapper = new MPJLambdaWrapper<>();
+
+
+        IPage<OrderResponseDTO> iPage = orderMapper.selectJoinPage(
+                new Page<>(orderRequestDTO.getBeginIndex(), orderRequestDTO.getMaxLineNumberOfPage()),
+                OrderResponseDTO.class,
+                mpjLambdaWrapper
+        );
+        System.out.println(iPage);
+
 //        mpjLambdaWrapper
+//                .selectCount()
 //                .select(Order::getOrderId)
 //                .select(User::getUserId, User::getRealName, User::getSex)
 //                .selectAs(Setmeal::getName, OrderResponseDTO::getSetmealName)
