@@ -25,9 +25,8 @@ import {reactive, toRefs} from 'vue'
 import {useRouter} from 'vue-router'
 import {cleanForm, isFormLack, setSessionStorage} from '@/common';
 import axios from 'axios'
-import {ElMessage} from 'element-plus'
-
-axios.defaults.baseURL = 'http://localhost:9090/tijian'
+import { ElMessage } from 'element-plus'
+axios.defaults.baseURL = 'http://localhost:9090'
 export default {
     setup() {
         //声明需要的数据变量
@@ -60,6 +59,7 @@ export default {
             axios.post('doctor/login', state.loginForm)
                 .then(response => {
                     let doctor = response.data.data;
+                    //console.log(doctor)
                     if (doctor) {
                         setSessionStorage('doctor', doctor)
                         router.push('/orderslist')

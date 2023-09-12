@@ -3,7 +3,10 @@
         <el-container style="height: 600px;">
             <el-header style="background-color: #bfcce2;">
                 <h1>Neusoft&nbsp;&nbsp; 东软体检报告管理系统</h1>
-                <p>医生:</p>
+                <span>
+                    <p>医生:{{doctor.realName}}</p>
+                    <el-button type="danger" @click="exit">退出</el-button>
+                </span>
             </el-header>
             <el-container>
                 <el-aside style="background-color: #e5edf9;" width="249px">
@@ -23,7 +26,9 @@
                         </el-form-item>
                         <el-form-item label="套餐类型">
                             <el-select v-model="selectForm.smId">
-                                <el-option :value="0" label="全部"/>
+                                <el-option label="全部" :value="-1" />
+                                <el-option v-for="item in mealList" :key="item.smId" :label="item.name"
+                                    :value="item.smId" />
                             </el-select>
                         </el-form-item>
                         <el-form-item label="体检日期">
@@ -60,7 +65,7 @@
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-pagination :page-size="10" :total="200" background layout="prev, pager, next"/>
+                    <el-pagination background layout="prev, pager, next" :total="200" :page-size="10" />
 
                 </el-main>
             </el-container>
@@ -69,35 +74,94 @@
 </template>
 
 <script>
-import {reactive, toRefs} from 'vue';
-import {useRoute} from 'vue-router';
+import { onBeforeMount, reactive, toRefs } from 'vue';
+import { getSessionStorage,removeSessionStorage } from '@/common'
+import { useRouter } from 'vue-router';
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:9090'
 export default {
     setup() {
-        const router = useRoute();
+        const router = useRouter();
         const state = reactive({
             selectForm: {
                 userId: '',
-                smId: 0,
+                smId: -1,
                 orderDate: '',
                 realName: '',
-                sex: 1,
-                state: 1
+                sex: -1, // -1表示没有限制
+                state: -1 // ~
             },
-            tableData: []
+            tableData: [
+
+            ],
+            mealList: [
+
+            ],
+            doctor: {
+                realName: ''
+            }
+
         })
 
         function select() {
+            //查询按钮
             console.log(state.selectForm)
         }
-
+        onBeforeMount(() => {
+            //获取医生姓名
+            getDoc();
+            //获取套餐数据
+            getMealList();
+            //获取列表数据
+            //getTableData({});
+        })
+        function exit(){
+            removeSessionStorage('doctor');
+            router.push('/login');
+        }
+        function getDoc() {
+            //获取医生姓名
+            let doctor = getSessionStorage('doctor');
+            if (doctor) {
+                state.doctor = doctor;
+            } else {
+                state.doctor = {
+                    realName: ''
+                }
+            }
+        }
+        function getMealList() {
+            //获取套餐数据
+            axios.post('setmeal/getAllSetmeal')
+                .then(res => {
+                    let data = res.data.data;
+                    state.mealList = data;
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        function getTableData() {
+            //获取列表数据
+            // axios.post()
+            //     .then(res => {
+            //         let data = res.data.data;
+            //         state.tableData = data;
+            //     })
+            //     .catch(err => {
+            //         console.log(err);
+            //     })
+        }
         return {
             ...toRefs(state),
-            select
+            select,
+            getDoc,
+            getMealList,
+            getTableData,
+            exit
         }
-    }
+    },
 };
 </script>
 
@@ -108,6 +172,11 @@ export default {
     justify-content: space-between;
 }
 
+.el-header span {
+    display: flex;
+    align-items: center;
+}
+
 .el-header h1 {
     color: blue;
 
@@ -115,6 +184,7 @@ export default {
 
 .el-header p {
     color: cornflowerblue;
+    margin-right: 5px;
 }
 
 .el-form {
