@@ -13,9 +13,18 @@ import java.util.List;
 public class OrderResponseDTO {
     private List<Order> orderList;
 
-    private Integer currentPageNumber;
+    // 总记录数
     private Integer totalCount;
-    private Integer maxPageNumber;
+    // 总页数
+    private Integer totalPageNumber;
+
+    // 上一页数
     private Integer prePageNumber;
+    // 下一页数
     private Integer nextPageNumber;
+
+    // 当前页数
+    private Integer currentPageNumber;
+    // 每页最大行数
+    private Integer maxLineNumberOfPage;
 }
