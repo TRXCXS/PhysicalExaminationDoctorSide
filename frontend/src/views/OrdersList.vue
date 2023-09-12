@@ -26,13 +26,9 @@
                         </el-form-item>
                         <el-form-item label="套餐类型">
                             <el-select v-model="selectForm.smId">
-<<<<<<< HEAD
                                 <el-option label="全部" :value="-1" />
                                 <el-option v-for="item in mealList" :key="item.smId" :label="item.name"
                                     :value="item.smId" />
-=======
-                                <el-option :value="0" label="全部"/>
->>>>>>> ce56615b1849d17da50910bc0809c88c8164eef2
                             </el-select>
                         </el-form-item>
                         <el-form-item label="体检日期">
