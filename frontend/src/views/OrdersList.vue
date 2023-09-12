@@ -6,14 +6,14 @@
                 <p>医生:</p>
             </el-header>
             <el-container>
-                <el-aside width="249px" style="background-color: #e5edf9;">
+                <el-aside style="background-color: #e5edf9;" width="249px">
                     <el-form :model="selectForm" label-width="80px">
                         <h4>体检用户查询</h4>
                         <el-form-item label="手机号码">
-                            <el-input v-model="selectForm.userId" />
+                            <el-input v-model="selectForm.userId"/>
                         </el-form-item>
                         <el-form-item label="用户姓名">
-                            <el-input v-model="selectForm.realName" />
+                            <el-input v-model="selectForm.realName"/>
                         </el-form-item>
                         <el-form-item label="性别">
                             <el-radio-group v-model="selectForm.sex">
@@ -23,12 +23,13 @@
                         </el-form-item>
                         <el-form-item label="套餐类型">
                             <el-select v-model="selectForm.smId">
-                                <el-option label="全部" :value="0" />
+                                <el-option :value="0" label="全部"/>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="体检日期">
-                            <el-date-picker v-model="selectForm.orderDate" type="date" placeholder="选择体检日期"
-                                style="width: 100%" />
+                            <el-date-picker v-model="selectForm.orderDate" placeholder="选择体检日期"
+                                            style="width: 100%"
+                                            type="date"/>
                         </el-form-item>
                         <el-form-item label="是否归档">
                             <el-radio-group v-model="selectForm.state">
@@ -45,20 +46,21 @@
 
                 <el-main style="background-color: #fdffff;">
                     <el-table :data="tableData" style="width: 100%">
-                        <el-table-column fixed prop="date" label="预约编号" width="90" />
-                        <el-table-column prop="name" label="手机号码" width="120" />
-                        <el-table-column prop="state" label="姓名" width="120" />
-                        <el-table-column prop="city" label="性别" width="80" />
-                        <el-table-column prop="address" label="套餐类型" width="150" />
-                        <el-table-column prop="zip" label="体检医院" width="auto" />
-                        <el-table-column prop="zip" label="体检日期" width="120" />
+                        <el-table-column fixed label="预约编号" prop="date" width="90"/>
+                        <el-table-column label="手机号码" prop="name" width="120"/>
+                        <el-table-column label="姓名" prop="state" width="120"/>
+                        <el-table-column label="性别" prop="city" width="80"/>
+                        <el-table-column label="套餐类型" prop="address" width="150"/>
+                        <el-table-column label="体检医院" prop="zip" width="auto"/>
+                        <el-table-column label="体检日期" prop="zip" width="120"/>
                         <el-table-column fixed="right" label="操作" width="120">
                             <template #default>
-                                <el-button link type="primary" size="small" @click="handleClick">编辑体检报告</el-button>
+                                <el-button link size="small" type="primary" @click="handleClick">编辑体检报告
+                                </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-pagination background layout="prev, pager, next" :total="200" :page-size="10"/>
+                    <el-pagination :page-size="10" :total="200" background layout="prev, pager, next"/>
 
                 </el-main>
             </el-container>
@@ -67,9 +69,10 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue';
-import { useRoute } from 'vue-router';
+import {reactive, toRefs} from 'vue';
+import {useRoute} from 'vue-router';
 import axios from 'axios'
+
 axios.defaults.baseURL = 'http://localhost:9090'
 export default {
     setup() {
@@ -83,13 +86,13 @@ export default {
                 sex: 1,
                 state: 1
             },
-            tableData: [
-
-            ]
+            tableData: []
         })
+
         function select() {
             console.log(state.selectForm)
         }
+
         return {
             ...toRefs(state),
             select
@@ -128,7 +131,8 @@ export default {
 .el-table {
     margin-bottom: 10px;
 }
+
 .el-pagination {
-    margin-left:30%;
+    margin-left: 30%;
 }
 </style>

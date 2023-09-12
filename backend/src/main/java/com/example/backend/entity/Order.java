@@ -23,4 +23,9 @@ public class Order {
     private Integer smId;
 
     private Integer state;
+
+
+    private User user;
+    private Setmeal setmeal;
+    private Hospital hospital;
 }
