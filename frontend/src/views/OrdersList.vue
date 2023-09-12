@@ -33,7 +33,7 @@
                         </el-form-item>
                         <el-form-item label="体检日期">
                             <el-date-picker v-model="selectForm.orderDate" placeholder="选择体检日期" style="width: 100%"
-                                type="date" />
+                                type="date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" />
                         </el-form-item>
                         <el-form-item label="是否归档">
                             <el-radio-group v-model="selectForm.state">
@@ -42,17 +42,17 @@
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="getTableData">查询</el-button>
-                            <el-button type="warning">重置</el-button>
+                            <el-button type="primary" @click="toQuery(1)">查询</el-button>
+                            <el-button type="warning" @click="toReset">重置</el-button>
                         </el-form-item>
                     </el-form>
                 </el-aside>
 
                 <el-main style="background-color: #fdffff;">
-                    <el-table :data="tableData" style="width: 100%"> 
-                        <el-table-column v-for="item in tableHeader" :key="item.label" 
-                            :label="item.label" :width="item.width">
-                        </el-table-column>    
+                    <el-table :data="ordersPageResponseDto.ordersList" style="width: 100%">
+                        <el-table-column v-for="item in tableHeader" :key="item.label" :label="item.label" :prop="item.prop"
+                            :width="item.width">
+                        </el-table-column>
                         <el-table-column fixed="right" label="操作" width="120">
                             <template #default>
                                 <el-button link size="small" type="primary" @click="handleClick">编辑体检报告
@@ -60,7 +60,10 @@
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-pagination background layout="prev, pager, next" :total="200" :page-size="10" />
+                    <el-pagination background layout="prev, pager, next, total" :total="ordersPageResponseDto.totalCount"
+                        :page-size="ordersPageResponseDto.maxPageNum" 
+                        @current-change="currentChange"
+                        />
 
                 </el-main>
             </el-container>
@@ -85,11 +88,11 @@ export default {
                 orderDate: '',
                 realName: '',
                 sex: -1, // -1表示没有限制
-                state: -1 // ~
+                state: 1 // ~
             },
-            tableData: [
 
-            ],
+            ordersPageResponseDto: {},
+
             mealList: [
 
             ],
@@ -99,12 +102,12 @@ export default {
 
             //存储列表 表头数据
             tableHeader: [
-                { label: '预约编号', prop: 'orderId', width: '90' },
+                { label: '预约编号', prop: 'orderId', width: '100' },
                 { label: '手机号码', prop: 'userId', width: '120' },
-                { label: '姓名', prop: 'realName', width: '120' },
-                { label: '性别', prop: 'sex', width: '80' },
-                { label: '套餐类型', prop: 'smId', width: '150' },
-                { label: '体检医院', prop: 'hpId', width: 'auto' },
+                { label: '真实姓名', prop: 'users.realName', width: '90' },
+                { label: '性别', prop: 'users.sex', width: '150' },
+                { label: '套餐类型', prop: 'setmeal.name', width: '200' },
+                { label: '体检医院', prop: 'hospital.name', width: '120' },
                 { label: '体检日期', prop: 'orderDate', width: '120' }
             ],
         })
@@ -116,7 +119,7 @@ export default {
             //获取套餐数据
             getMealList();
             //获取列表数据
-            getTableData();
+            toQuery(1);
         })
         function exit() {
             removeSessionStorage('doctor');
@@ -144,25 +147,46 @@ export default {
                     console.log(err);
                 })
         }
-        function getTableData() {
+        function toQuery(currentPage) {
+            //state.ordersPageResponseDto={};
+            state.selectForm.pageNum = currentPage;
+            state.selectForm.maxPageNum = 10;
             console.log(state.selectForm)
             //获取列表数据
-            axios.post('orders/query', state.selectForm, state.selectForm)
+            axios.post('orders/query', state.selectForm)
                 .then(res => {
                     let data = res.data.data;
-                    state.tableData = data;
-                    //遍历修改每个元素的sex
+                    state.ordersPageResponseDto = data;
+                    let list = ordersPageResponseDto.ordersList;
+                    list.map((item, index) => {
+                        item.sex = item.sex ? '男' : '女'
+                    })
                 })
                 .catch(err => {
                     console.log(err);
                 })
         }
+        function currentChange(pageNum){
+            toQuery(pageNum);
+        }
+        function toReset(){
+            state.selectForm= {
+                userId: '',
+                smId: -1,
+                orderDate: '',
+                realName: '',
+                sex: -1, // -1表示没有限制
+                state: 1 // ~
+            }
+        }
         return {
             ...toRefs(state),
             getDoc,
             getMealList,
-            getTableData,
-            exit
+            toQuery,
+            currentChange,
+            exit,
+            toReset
         }
     },
 };
