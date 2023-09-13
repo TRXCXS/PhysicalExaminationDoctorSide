@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("doctor")
 public class Doctor {
-    @TableId(value = "docId",type = IdType.AUTO)
+    @TableId(value = "docId", type = IdType.AUTO)
     private Integer docId;
     private String docCode;
     private String realName;

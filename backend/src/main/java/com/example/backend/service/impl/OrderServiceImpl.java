@@ -1,5 +1,6 @@
 package com.example.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.backend.dto.OrderRequestDTO;
@@ -26,6 +27,7 @@ import java.util.List;
 public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> implements OrderService {
     private final OrderMapper orderMapper;
 
+    @Override
     public void checkOrderRequestDTO(MPJLambdaWrapper<Order> mpjLambdaWrapper, @NotNull OrderRequestDTO orderRequestDTO) {
         if (!orderRequestDTO.getUserId().equals("")) {
             mpjLambdaWrapper.like(User::getUserId, orderRequestDTO.getUserId());
@@ -152,5 +154,14 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
         orderResponseDTO.setOrderResponseDTOBodyList(orderResponseDTOBodyList);
 
         return Result.success(orderResponseDTO);
+    }
+
+    @Override
+    public Boolean isOrderArchived(Integer orderId) {
+        return orderMapper.exists(
+                new QueryWrapper<Order>()
+                        .eq("orderId", orderId)
+                        .eq("state", 2)
+        );
     }
 }

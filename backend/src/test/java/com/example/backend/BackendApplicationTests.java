@@ -2,13 +2,13 @@ package com.example.backend;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.backend.controller.CheckItemDetailedController;
 import com.example.backend.dto.DoctorLoginFormDTO;
 import com.example.backend.dto.OrderRequestDTO;
 import com.example.backend.dto.OrderResponseDTOBody;
 import com.example.backend.entity.*;
 import com.example.backend.mapper.OrderMapper;
-import com.example.backend.service.DoctorService;
-import com.example.backend.service.SetmealService;
+import com.example.backend.service.*;
 import com.example.backend.utils.SHA256;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import org.junit.jupiter.api.Test;
@@ -25,6 +25,14 @@ class BackendApplicationTests {
     private SetmealService setmealService;
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private SetmealDetailedService setmealDetailedService;
+    @Autowired
+    private CheckItemService checkItemService;
+    @Autowired
+    private CheckItemDetailedService checkItemDetailedService;
+    @Autowired
+    private CheckItemDetailedController checkItemDetailedController;
 
     @Test
     void saveDoctorTest() throws Exception {
@@ -55,6 +63,9 @@ class BackendApplicationTests {
 
         doctorService.saveDoctor(
                 new Doctor(
+                        /**
+                         * 第一个字段是自增的，不应该给值。给null也会导致错误的结果。
+                         */
                         null,
                         "bq",
                         "扁鹊",
@@ -70,12 +81,12 @@ class BackendApplicationTests {
     }
 
     @Test
-    void SetmealServiceTest() {
+    void setmealServiceTest() {
         System.out.println(setmealService.getAllSetmeal());
     }
 
     @Test
-    void OrderQueryTest() {
+    void orderQueryTest() {
         OrderRequestDTO orderRequestDTO = new OrderRequestDTO(
                 "",
                 "",
@@ -138,5 +149,38 @@ class BackendApplicationTests {
         for (OrderResponseDTOBody orderResponseDTOBody : orderResponseDTOBodyList) {
             System.out.println(orderResponseDTOBody);
         }
+    }
+
+    @Test
+    void setmealDetailedServiceTest() {
+        System.out.println(setmealDetailedService.getCheckItemIdListBySetmealId(3));
+    }
+
+    @Test
+    void checkItemServiceTest() {
+        System.out.println(checkItemService.getCheckItemById(1));
+
+        /**
+         * 根据套餐编号拿到所有的检查大项
+         */
+        System.out.println(
+                checkItemService.getCheckItemListByIdList(
+                        setmealDetailedService.getCheckItemIdListBySetmealId(3)
+                )
+        );
+    }
+
+    @Test
+    void checkItemDetailedService() {
+        System.out.println(
+                checkItemDetailedService.getCheckItemDetailedByCheckItemId(1)
+        );
+    }
+
+    @Test
+    void CheckItemDetailedControllerTest() {
+        System.out.println(
+                checkItemDetailedController.getAllCheckitemAndCheckitemDetailedBySetmealId(1)
+        );
     }
 }
