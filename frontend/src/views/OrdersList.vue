@@ -75,10 +75,12 @@
                         <el-table-column fixed="right"
                             label="操作"
                             width="120">
-                            <template #default>
-                                <el-button link
+                            <template #default="scope">
+                                <el-button 
                                     size="small"
-                                    type="primary">编辑体检报告
+                                    :type="scope.row.state==1?'primary':'success'"
+                                    @click="toReportContent(scope.row.state,scope.row.smId)">
+                                    {{ scope.row.state==1?'编辑体检报告':'查看体检报告' }}
                                 </el-button>
                             </template>
                         </el-table-column>
@@ -145,6 +147,9 @@ export default {
             //获取列表数据
             toQuery(1);
         })
+        function toReportContent(state,smId){
+            //跳转到体检报告内容
+        }
         function exit() {
             removeSessionStorage('doctor');
             router.push('/login');
@@ -214,7 +219,8 @@ export default {
             toQuery,
             currentChange,
             exit,
-            toReset
+            toReset,
+            toReportContent,
         }
     },
 };
@@ -225,6 +231,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    color: #1c51a3;
+    text-align: center;
+    background-color: #b3c0d1
 }
 
 .el-header span {
@@ -233,12 +243,12 @@ export default {
 }
 
 .el-header h1 {
-    color: blue;
-
+    font-size: 22px;
+    font-weight: 700;
 }
 
 .el-header p {
-    color: cornflowerblue;
+    font-size: 16px;
     margin-right: 5px;
 }
 
@@ -259,4 +269,5 @@ export default {
 
 .el-pagination {
     margin-left: 30%;
-}</style>
+}
+</style>
