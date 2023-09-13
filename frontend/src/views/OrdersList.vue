@@ -5,12 +5,16 @@
                 <h1>Neusoft&nbsp;&nbsp; 东软体检报告管理系统</h1>
                 <span>
                     <p>医生:{{ doctor.realName }}</p>
-                    <el-button type="danger" @click="exit" size="small">退出</el-button>
+                    <el-button type="danger"
+                        @click="exit"
+                        size="small">退出</el-button>
                 </span>
             </el-header>
             <el-container>
-                <el-aside style="background-color: #e5edf9;" width="249px">
-                    <el-form :model="selectForm" label-width="80px">
+                <el-aside style="background-color: #e5edf9;"
+                    width="249px">
+                    <el-form :model="selectForm"
+                        label-width="80px">
                         <h4>体检用户查询</h4>
                         <el-form-item label="手机号码">
                             <el-input v-model="selectForm.userId" />
@@ -26,44 +30,64 @@
                         </el-form-item>
                         <el-form-item label="套餐类型">
                             <el-select v-model="selectForm.smId">
-                                <el-option label="全部" :value="-1" />
-                                <el-option v-for="item in mealList" :key="item.smId" :label="item.name"
+                                <el-option label="全部"
+                                    :value="-1" />
+                                <el-option v-for="item in mealList"
+                                    :key="item.smId"
+                                    :label="item.name"
                                     :value="item.smId" />
                             </el-select>
                         </el-form-item>
                         <el-form-item label="体检日期">
-                            <el-date-picker v-model="selectForm.orderDate" placeholder="选择体检日期" style="width: 100%"
-                                type="date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" />
+                            <el-date-picker v-model="selectForm.orderDate"
+                                placeholder="选择体检日期"
+                                style="width: 100%"
+                                type="date"
+                                format="YYYY/MM/DD"
+                                value-format="YYYY-MM-DD" />
                         </el-form-item>
                         <el-form-item label="是否归档">
                             <el-radio-group v-model="selectForm.state">
-                                <el-radio :label="1" border>未归档</el-radio>
-                                <el-radio :label="2" border>已归档</el-radio>
+                                <el-radio :label="1"
+                                    border>未归档</el-radio>
+                                <el-radio :label="2"
+                                    border>已归档</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="toQuery(1)">查询</el-button>
-                            <el-button type="warning" @click="toReset">重置</el-button>
+                            <el-button type="primary"
+                                @click="toQuery(1)">查询</el-button>
+                            <el-button type="warning"
+                                @click="toReset">重置</el-button>
                         </el-form-item>
                     </el-form>
                 </el-aside>
 
                 <el-main style="background-color: #fdffff;">
-                    <el-table :data="ordersPageResponseDto.orderResponseDTOBodyList" style="width: 100%">
-                        <el-table-column v-for="item in tableHeader" :key="item.label" :label="item.label" :prop="item.prop"
+                    <el-table :data="ordersPageResponseDto.orderResponseDTOBodyList"
+                        style="width: 100%">
+                        <el-table-column v-for="item in tableHeader"
+                            :key="item.label"
+                            :label="item.label"
+                            :prop="item.prop"
                             :width="item.width">
                         </el-table-column>
-                        <el-table-column fixed="right" label="操作" width="120">
+                        <el-table-column fixed="right"
+                            label="操作"
+                            width="120">
                             <template #default>
-                                <el-button link size="small" type="primary" >编辑体检报告
+                                <el-button link
+                                    size="small"
+                                    type="primary">编辑体检报告
                                 </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-pagination background layout="prev, pager, next, total" :total="ordersPageResponseDto.totalCount"
-                        :page-size="ordersPageResponseDto.maxLineNumberOfPage" 
-                        @current-change="currentChange"
-                        />
+                    <el-pagination background
+                        layout="prev, pager, next, total"
+                        :total="ordersPageResponseDto.totalCount"
+                        :page-size="ordersPageResponseDto.maxLineNumberOfPage"
+                        @current-change="currentChange" />
 
                 </el-main>
             </el-container>
@@ -102,9 +126,6 @@ export default {
 
             //存储列表 表头数据
             tableHeader: [
-            // {"orderId":100569001,"userId":"12345671111","realName":"叶文洁","sex":0
-            // /"setmealName":"女士-基础套餐","hospitalName":"沈阳熙康云医院-和平院区","
-            //orderDate":"2022-12-31"
                 { label: '预约编号', prop: 'orderId', width: '100' },
                 { label: '手机号码', prop: 'userId', width: '120' },
                 { label: '真实姓名', prop: 'realName', width: '90' },
@@ -154,6 +175,9 @@ export default {
             //state.ordersPageResponseDto={};
             state.selectForm.currentPageNumber = currentPage;
             state.selectForm.maxLineNumberOfPage = 10;
+            if (state.selectForm.orderDate == null) {
+                state.selectForm.orderDate = '';
+            }
             console.log(state.selectForm)
             //获取列表数据
             //orders/query
@@ -163,18 +187,18 @@ export default {
                     state.ordersPageResponseDto = data;
                     let list = state.ordersPageResponseDto.orderResponseDTOBodyList;
                     list.map((item, index) => {
-                        item.sex = item.sex==1 ? '男' : '女'
+                        item.sex = item.sex == 1 ? '男' : '女'
                     })
                 })
                 .catch(err => {
                     console.log(err);
                 })
         }
-        function currentChange(currentPageNumber){
+        function currentChange(currentPageNumber) {
             toQuery(currentPageNumber);
         }
-        function toReset(){
-            state.selectForm= {
+        function toReset() {
+            state.selectForm = {
                 userId: '',
                 smId: -1,
                 orderDate: '',
@@ -235,5 +259,4 @@ export default {
 
 .el-pagination {
     margin-left: 30%;
-}
-</style>
+}</style>
