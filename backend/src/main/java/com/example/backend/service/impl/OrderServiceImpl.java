@@ -87,18 +87,12 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
         checkOrderRequestDTO(mpjLambdaWrapper, orderRequestDTO);
 
         IPage<OrderResponseDTOBody> iPage = orderMapper.selectJoinPage(
-                new Page<>(orderRequestDTO.getBeginIndex(), orderRequestDTO.getMaxLineNumberOfPage()),
+                new Page<>(orderRequestDTO.getCurrentPageNumber(), orderRequestDTO.getMaxLineNumberOfPage()),
                 OrderResponseDTOBody.class,
                 mpjLambdaWrapper
         );
 
-        List<OrderResponseDTOBody> records = iPage.getRecords();
-        int totalCount = records.size(),
-                lastIndex = Math.min(orderRequestDTO.getBeginIndex() + orderRequestDTO.getMaxLineNumberOfPage(), totalCount);
-
-        return iPage.getRecords().subList(
-                orderRequestDTO.getBeginIndex(), lastIndex
-        );
+        return iPage.getRecords();
     }
 
     @Override

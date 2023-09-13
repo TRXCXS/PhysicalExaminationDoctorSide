@@ -26,6 +26,8 @@ class BackendApplicationTests {
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
+    private OrderService orderService;
+    @Autowired
     private SetmealDetailedService setmealDetailedService;
     @Autowired
     private CheckItemService checkItemService;
@@ -95,7 +97,7 @@ class BackendApplicationTests {
                 "",
                 -1,
 
-                1,
+                5,
                 3,
                 0
         );
@@ -111,44 +113,43 @@ class BackendApplicationTests {
                 .leftJoin(Setmeal.class, Setmeal::getSmId, Order::getSmId)
                 .leftJoin(Hospital.class, Hospital::getHpId, Order::getHpId);
 
-        if (!orderRequestDTO.getUserId().equals("")) {
-            mpjLambdaWrapper.like(User::getUserId, orderRequestDTO.getUserId());
-        }
-        if (!orderRequestDTO.getRealName().equals("")) {
-            mpjLambdaWrapper.like(User::getRealName, orderRequestDTO.getRealName());
-        }
-        if (orderRequestDTO.getSex() != -1) {
-            mpjLambdaWrapper.eq(User::getSex, orderRequestDTO.getSex());
-        }
-        if (orderRequestDTO.getSmId() != -1) {
-            mpjLambdaWrapper.eq(Order::getSmId, orderRequestDTO.getSmId());
-        }
-        if (!orderRequestDTO.getOrderDate().equals("")) {
-            mpjLambdaWrapper.eq(Order::getOrderDate, orderRequestDTO.getOrderDate());
-        }
-        if (orderRequestDTO.getState() != -1) {
-            mpjLambdaWrapper.eq(Order::getState, orderRequestDTO.getState());
-        }
+        orderService.checkOrderRequestDTO(mpjLambdaWrapper, orderRequestDTO);
 
         IPage<OrderResponseDTOBody> iPage = orderMapper.selectJoinPage(
-                new Page<>(orderRequestDTO.getBeginIndex(), orderRequestDTO.getMaxLineNumberOfPage()),
+                new Page<>(orderRequestDTO.getCurrentPageNumber(), orderRequestDTO.getMaxLineNumberOfPage()),
                 OrderResponseDTOBody.class,
                 mpjLambdaWrapper
         );
 
         List<OrderResponseDTOBody> records = iPage.getRecords();
 
-        System.out.println(records);
-
-        int totalCount = records.size(), lastIndex;
-        lastIndex = Math.min(orderRequestDTO.getBeginIndex() + orderRequestDTO.getMaxLineNumberOfPage(), totalCount);
-
-        List<OrderResponseDTOBody> orderResponseDTOBodyList = iPage.getRecords().subList(
-                orderRequestDTO.getBeginIndex(), lastIndex
-        );
-        for (OrderResponseDTOBody orderResponseDTOBody : orderResponseDTOBodyList) {
+        System.out.println("records:");
+        for (OrderResponseDTOBody orderResponseDTOBody : records) {
             System.out.println(orderResponseDTOBody);
         }
+
+        /**
+         * 使用切片的方法——如果没有配置mybatis-plus分页插件（MyBatisPlusPaginationInnerConfig）的话，会返回所有记录而不是目标那一页
+         *
+         int totalCount = records.size(), lastIndex;
+         lastIndex = Math.min(orderRequestDTO.getBeginIndex() + orderRequestDTO.getMaxLineNumberOfPage(), totalCount);
+
+         List<OrderResponseDTOBody> orderResponseDTOBodyList = iPage.getRecords().subList(
+         orderRequestDTO.getBeginIndex(), lastIndex
+         );
+         for (OrderResponseDTOBody orderResponseDTOBody : orderResponseDTOBodyList) {
+         System.out.println(orderResponseDTOBody);
+         }
+         */
+
+        /**
+         * 测试service中的对应方法是否正常工作
+         *
+         System.out.println("new records:");
+         for (OrderResponseDTOBody orderResponseDTOBody : orderService.getOrderResponseDTOBodyListByOrderRequestDTO(orderRequestDTO)) {
+         System.out.println(orderResponseDTOBody);
+         }
+         */
     }
 
     @Test
