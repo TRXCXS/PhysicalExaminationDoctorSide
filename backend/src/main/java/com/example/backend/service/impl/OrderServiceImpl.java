@@ -158,4 +158,12 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
                         .eq("state", 2)
         );
     }
+
+    @Override
+    public Integer getSmIdByOrderId(Integer orderId) {
+        return orderMapper.selectOne(
+                new QueryWrapper<Order>()
+                        .eq("orderId", orderId)
+        ).getSmId();
+    }
 }

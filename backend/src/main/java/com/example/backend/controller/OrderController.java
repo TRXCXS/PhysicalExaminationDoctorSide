@@ -23,4 +23,9 @@ public class OrderController {
     public Boolean isOrderArchived(@RequestBody Integer orderId) {
         return orderService.isOrderArchived(orderId);
     }
+
+    @RequestMapping("/getSmIdByOrderId")
+    public Integer getSmIdByOrderId(@RequestBody Integer orderId) {
+        return orderService.getSmIdByOrderId(orderId);
+    }
 }

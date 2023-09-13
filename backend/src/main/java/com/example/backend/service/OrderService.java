@@ -21,4 +21,6 @@ public interface OrderService extends MPJBaseService<Order> {
     Result getOrdersByOrderRequestDTO(OrderRequestDTO orderRequestDTO);
 
     Boolean isOrderArchived(Integer orderId);
+
+    Integer getSmIdByOrderId(Integer orderId);
 }
