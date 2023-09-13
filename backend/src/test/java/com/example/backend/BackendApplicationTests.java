@@ -2,12 +2,14 @@ package com.example.backend;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.backend.dto.DoctorLoginFormDTO;
 import com.example.backend.dto.OrderRequestDTO;
 import com.example.backend.dto.OrderResponseDTOBody;
 import com.example.backend.entity.*;
 import com.example.backend.mapper.OrderMapper;
 import com.example.backend.service.DoctorService;
 import com.example.backend.service.SetmealService;
+import com.example.backend.utils.SHA256;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,41 +27,50 @@ class BackendApplicationTests {
     private OrderMapper orderMapper;
 
     @Test
-    void doctorService() throws Exception {
-//        System.out.println(doctorService.getDoctorByDocCode("ssm"));
-//        System.out.println(doctorService.getDoctorByDocCode("bq"));
-//
-//        System.out.println(SHA256.encrypt("123"));
-//
-//        System.out.println(doctorService.getDoctorByDocCodeAndPassword(
-//                new DoctorLoginFormDTO("ssm", "123")
-//        ));
-//        System.out.println(doctorService.getDoctorByDocCodeAndPassword(
-//                new DoctorLoginFormDTO("ssm", "456")
-//        ));
+    void saveDoctorTest() throws Exception {
+        doctorService.saveDoctor(
+                new Doctor(
+                        "bq",
+                        "扁鹊",
+                        "000",
+                        1,
+                        1
+                )
+        );
+    }
 
-//        doctorService.saveDoctor(
-//                new Doctor(
-//
-//                        "bq",
-//                        "扁鹊",
-//                        "000",
-//                        1,
-//                        1
-//                )
-//        );
+    @Test
+    void doctorServiceTest() throws Exception {
+        System.out.println(doctorService.getDoctorByDocCode("ssm"));
+        System.out.println(doctorService.getDoctorByDocCode("bq"));
 
+        System.out.println(SHA256.encrypt("123"));
 
+        System.out.println(doctorService.getDoctorByDocCodeAndPassword(
+                new DoctorLoginFormDTO("ssm", "123")
+        ));
+        System.out.println(doctorService.getDoctorByDocCodeAndPassword(
+                new DoctorLoginFormDTO("ssm", "456")
+        ));
 
-//        System.out.println(doctorService.getDoctorByDocCodeAndPassword(
-//                new DoctorLoginFormDTO("bq", "000")
-//        ));
+        doctorService.saveDoctor(
+                new Doctor(
+                        null,
+                        "bq",
+                        "扁鹊",
+                        "000",
+                        1,
+                        1
+                )
+        );
+
+        System.out.println(doctorService.getDoctorByDocCodeAndPassword(
+                new DoctorLoginFormDTO("bq", "000")
+        ));
     }
 
     @Test
     void SetmealServiceTest() {
-
-        System.out.println("999999999999999999");
         System.out.println(setmealService.getAllSetmeal());
     }
 

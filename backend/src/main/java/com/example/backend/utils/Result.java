@@ -36,4 +36,14 @@ public class Result {
     public static @NotNull Result fail(String errorMessage) {
         return new Result(false, errorMessage, null, null);
     }
+
+    @Contract("_ -> new")
+    public static @NotNull Result fail(String errorMessage, Object data) {
+        return new Result(false, errorMessage, data, null);
+    }
+
+    @Contract("_ -> new")
+    public static @NotNull Result fail(String errorMessage, List<?> data, Long dataNumber) {
+        return new Result(false, errorMessage, data, dataNumber);
+    }
 }

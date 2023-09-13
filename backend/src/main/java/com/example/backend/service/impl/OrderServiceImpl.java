@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -105,8 +106,10 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
         // 总记录数
         int totalCount = getNumberOfOrdersByOrderRequestDTO(orderRequestDTO);
         if (totalCount < 1) {
-            // 没有查询到符合条件的记录
-            return Result.fail("没有查询到符合条件的记录！");
+            // 没有查询到符合条件的记录，返回的Result的data的OrderResponseDTOBodyList属性是一个空列表
+            List<OrderResponseDTOBody> orderResponseDTOBodyList = new ArrayList<>();
+            orderResponseDTO.setOrderResponseDTOBodyList(orderResponseDTOBodyList);
+            return Result.fail("没有查询到符合条件的记录！", orderResponseDTO);
         }
         // 设置总记录数
         orderResponseDTO.setTotalCount(totalCount);

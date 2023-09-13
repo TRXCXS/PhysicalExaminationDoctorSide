@@ -13,10 +13,10 @@
                     <el-form :model="selectForm" label-width="80px">
                         <h4>体检用户查询</h4>
                         <el-form-item label="手机号码">
-                            <el-input v-model="selectForm.userId" />
+                            <el-input v-model="selectForm.userId"/>
                         </el-form-item>
                         <el-form-item label="用户姓名">
-                            <el-input v-model="selectForm.realName" />
+                            <el-input v-model="selectForm.realName"/>
                         </el-form-item>
                         <el-form-item label="性别">
                             <el-radio-group v-model="selectForm.sex">
@@ -26,14 +26,15 @@
                         </el-form-item>
                         <el-form-item label="套餐类型">
                             <el-select v-model="selectForm.smId">
-                                <el-option label="全部" :value="-1" />
+                                <el-option :value="-1" label="全部"/>
                                 <el-option v-for="item in mealList" :key="item.smId" :label="item.name"
-                                    :value="item.smId" />
+                                           :value="item.smId"/>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="体检日期">
-                            <el-date-picker v-model="selectForm.orderDate" placeholder="选择体检日期" style="width: 100%"
-                                type="date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" />
+                            <el-date-picker v-model="selectForm.orderDate" format="YYYY/MM/DD"
+                                            placeholder="选择体检日期"
+                                            style="width: 100%" type="date" value-format="YYYY-MM-DD"/>
                         </el-form-item>
                         <el-form-item label="是否归档">
                             <el-radio-group v-model="selectForm.state">
@@ -50,8 +51,9 @@
 
                 <el-main style="background-color: #fdffff;">
                     <el-table :data="ordersPageResponseDto.ordersList" style="width: 100%">
-                        <el-table-column v-for="item in tableHeader" :key="item.label" :label="item.label" :prop="item.prop"
-                            :width="item.width">
+                        <el-table-column v-for="item in tableHeader" :key="item.label" :label="item.label"
+                                         :prop="item.prop"
+                                         :width="item.width">
                         </el-table-column>
                         <el-table-column fixed="right" label="操作" width="120">
                             <template #default>
@@ -60,10 +62,12 @@
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-pagination background layout="prev, pager, next, total" :total="ordersPageResponseDto.totalCount"
-                        :page-size="ordersPageResponseDto.maxPageNum" 
-                        @current-change="currentChange"
-                        />
+                    <el-pagination :page-size="ordersPageResponseDto.maxPageNum"
+                                   :total="ordersPageResponseDto.totalCount"
+                                   background
+                                   layout="prev, pager, next, total"
+                                   @current-change="currentChange"
+                    />
 
                 </el-main>
             </el-container>
@@ -72,9 +76,9 @@
 </template>
 
 <script>
-import { onBeforeMount, reactive, toRefs } from 'vue';
-import { getSessionStorage, removeSessionStorage } from '@/common'
-import { useRouter } from 'vue-router';
+import {onBeforeMount, reactive, toRefs} from 'vue';
+import {getSessionStorage, removeSessionStorage} from '@/common'
+import {useRouter} from 'vue-router';
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:9090'
@@ -93,22 +97,20 @@ export default {
 
             ordersPageResponseDto: {},
 
-            mealList: [
-
-            ],
+            mealList: [],
             doctor: {
                 realName: ''
             },
 
             //存储列表 表头数据
             tableHeader: [
-                { label: '预约编号', prop: 'orderId', width: '100' },
-                { label: '手机号码', prop: 'userId', width: '120' },
-                { label: '真实姓名', prop: 'users.realName', width: '90' },
-                { label: '性别', prop: 'users.sex', width: '150' },
-                { label: '套餐类型', prop: 'setmeal.name', width: '200' },
-                { label: '体检医院', prop: 'hospital.name', width: '120' },
-                { label: '体检日期', prop: 'orderDate', width: '120' }
+                {label: '预约编号', prop: 'orderId', width: '100'},
+                {label: '手机号码', prop: 'userId', width: '120'},
+                {label: '真实姓名', prop: 'users.realName', width: '90'},
+                {label: '性别', prop: 'users.sex', width: '150'},
+                {label: '套餐类型', prop: 'setmeal.name', width: '200'},
+                {label: '体检医院', prop: 'hospital.name', width: '120'},
+                {label: '体检日期', prop: 'orderDate', width: '120'}
             ],
         })
 
@@ -121,10 +123,12 @@ export default {
             //获取列表数据
             toQuery(1);
         })
+
         function exit() {
             removeSessionStorage('doctor');
             router.push('/login');
         }
+
         function getDoc() {
             //获取医生姓名
             let doctor = getSessionStorage('doctor');
@@ -136,6 +140,7 @@ export default {
                 }
             }
         }
+
         function getMealList() {
             //获取套餐数据
             axios.post('setmeal/getAllSetmeal')
@@ -147,6 +152,7 @@ export default {
                     console.log(err);
                 })
         }
+
         function toQuery(currentPage) {
             //state.ordersPageResponseDto={};
             state.selectForm.pageNum = currentPage;
@@ -166,11 +172,13 @@ export default {
                     console.log(err);
                 })
         }
-        function currentChange(pageNum){
+
+        function currentChange(pageNum) {
             toQuery(pageNum);
         }
-        function toReset(){
-            state.selectForm= {
+
+        function toReset() {
+            state.selectForm = {
                 userId: '',
                 smId: -1,
                 orderDate: '',
@@ -179,6 +187,7 @@ export default {
                 state: 1 // ~
             }
         }
+
         return {
             ...toRefs(state),
             getDoc,

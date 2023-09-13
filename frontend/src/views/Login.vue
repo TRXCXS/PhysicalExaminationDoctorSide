@@ -25,7 +25,8 @@ import {reactive, toRefs} from 'vue'
 import {useRouter} from 'vue-router'
 import {cleanForm, isFormLack, setSessionStorage} from '@/common';
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import {ElMessage} from 'element-plus'
+
 axios.defaults.baseURL = 'http://localhost:9090'
 export default {
     setup() {

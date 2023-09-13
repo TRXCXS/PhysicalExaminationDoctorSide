@@ -15,7 +15,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @RequestMapping("/getOrdersByOrderRequestDTO")
-    public Result login(@RequestBody OrderRequestDTO orderRequestDTO) {
+    public Result getOrdersByOrderRequestDTO(@RequestBody OrderRequestDTO orderRequestDTO) {
         return orderService.getOrdersByOrderRequestDTO(orderRequestDTO);
     }
 }
