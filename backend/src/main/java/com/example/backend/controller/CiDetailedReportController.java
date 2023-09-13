@@ -6,6 +6,7 @@ import com.example.backend.entity.CiDetailedReport;
 import com.example.backend.service.CheckItemService;
 import com.example.backend.service.CiDetailedReportService;
 import com.example.backend.service.SetmealDetailedService;
+import com.example.backend.utils.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +37,10 @@ public class CiDetailedReportController {
         }
 
         return checkItemAndCheckItemDetailedReportDTOList;
+    }
+
+    @RequestMapping("/updateCiDetailedReportList")
+    public Result updateCiDetailedReportList(@RequestBody List<CiDetailedReport> ciDetailedReportList) {
+        return ciDetailedReportService.updateCiDetailedReportList(ciDetailedReportList);
     }
 }
