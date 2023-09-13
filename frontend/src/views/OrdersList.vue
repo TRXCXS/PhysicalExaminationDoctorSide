@@ -5,7 +5,7 @@
                 <h1>Neusoft&nbsp;&nbsp; 东软体检报告管理系统</h1>
                 <span>
                     <p>医生:{{ doctor.realName }}</p>
-                    <el-button type="danger" @click="exit">退出</el-button>
+                    <el-button type="danger" @click="exit" size="small">退出</el-button>
                 </span>
             </el-header>
             <el-container>
@@ -49,19 +49,19 @@
                 </el-aside>
 
                 <el-main style="background-color: #fdffff;">
-                    <el-table :data="ordersPageResponseDto.ordersList" style="width: 100%">
+                    <el-table :data="ordersPageResponseDto.orderResponseDTOBodyList" style="width: 100%">
                         <el-table-column v-for="item in tableHeader" :key="item.label" :label="item.label" :prop="item.prop"
                             :width="item.width">
                         </el-table-column>
                         <el-table-column fixed="right" label="操作" width="120">
                             <template #default>
-                                <el-button link size="small" type="primary" @click="handleClick">编辑体检报告
+                                <el-button link size="small" type="primary" >编辑体检报告
                                 </el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                     <el-pagination background layout="prev, pager, next, total" :total="ordersPageResponseDto.totalCount"
-                        :page-size="ordersPageResponseDto.maxPageNum" 
+                        :page-size="ordersPageResponseDto.maxLineNumberOfPage" 
                         @current-change="currentChange"
                         />
 
@@ -102,12 +102,15 @@ export default {
 
             //存储列表 表头数据
             tableHeader: [
+            // {"orderId":100569001,"userId":"12345671111","realName":"叶文洁","sex":0
+            // /"setmealName":"女士-基础套餐","hospitalName":"沈阳熙康云医院-和平院区","
+            //orderDate":"2022-12-31"
                 { label: '预约编号', prop: 'orderId', width: '100' },
                 { label: '手机号码', prop: 'userId', width: '120' },
-                { label: '真实姓名', prop: 'users.realName', width: '90' },
-                { label: '性别', prop: 'users.sex', width: '150' },
-                { label: '套餐类型', prop: 'setmeal.name', width: '200' },
-                { label: '体检医院', prop: 'hospital.name', width: '120' },
+                { label: '真实姓名', prop: 'realName', width: '90' },
+                { label: '性别', prop: 'sex', width: '60' },
+                { label: '套餐类型', prop: 'setmealName', width: '200' },
+                { label: '体检医院', prop: 'hospitalName', width: '120' },
                 { label: '体检日期', prop: 'orderDate', width: '120' }
             ],
         })
@@ -149,25 +152,26 @@ export default {
         }
         function toQuery(currentPage) {
             //state.ordersPageResponseDto={};
-            state.selectForm.pageNum = currentPage;
-            state.selectForm.maxPageNum = 10;
+            state.selectForm.currentPageNumber = currentPage;
+            state.selectForm.maxLineNumberOfPage = 10;
             console.log(state.selectForm)
             //获取列表数据
-            axios.post('orders/query', state.selectForm)
+            //orders/query
+            axios.post('order/getOrdersByOrderRequestDTO', state.selectForm)
                 .then(res => {
                     let data = res.data.data;
                     state.ordersPageResponseDto = data;
-                    let list = ordersPageResponseDto.ordersList;
+                    let list = state.ordersPageResponseDto.orderResponseDTOBodyList;
                     list.map((item, index) => {
-                        item.sex = item.sex ? '男' : '女'
+                        item.sex = item.sex==1 ? '男' : '女'
                     })
                 })
                 .catch(err => {
                     console.log(err);
                 })
         }
-        function currentChange(pageNum){
-            toQuery(pageNum);
+        function currentChange(currentPageNumber){
+            toQuery(currentPageNumber);
         }
         function toReset(){
             state.selectForm= {
