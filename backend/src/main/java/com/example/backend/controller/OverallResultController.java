@@ -17,4 +17,9 @@ public class OverallResultController {
     public Boolean createOverallResult(@RequestBody OverallResult overallResult) {
         return overallResultService.createOverallResult(overallResult);
     }
+
+    @RequestMapping("/getOverallResultByOrderId")
+    public OverallResult getOverallResultByOrderId(@RequestBody Integer orderId) {
+        return overallResultService.getOverallResultByOrderId(orderId);
+    }
 }

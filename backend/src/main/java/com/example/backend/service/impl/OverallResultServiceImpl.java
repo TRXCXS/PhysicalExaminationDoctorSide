@@ -1,5 +1,6 @@
 package com.example.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.backend.entity.OverallResult;
 import com.example.backend.mapper.OverallResultMapper;
 import com.example.backend.service.OverallResultService;
@@ -21,5 +22,12 @@ public class OverallResultServiceImpl extends MPJBaseServiceImpl<OverallResultMa
         } else {
             return Boolean.FALSE;
         }
+    }
+
+    @Override
+    public OverallResult getOverallResultByOrderId(Integer orderId) {
+        return overallResultMapper.selectOne(
+                new QueryWrapper<OverallResult>().eq("orderId", orderId)
+        );
     }
 }
