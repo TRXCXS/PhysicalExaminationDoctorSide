@@ -166,4 +166,19 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
                         .eq("orderId", orderId)
         ).getSmId();
     }
+
+    @Override
+    public Boolean archiveOrder(Integer orderId) {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<Order>().eq("orderId", orderId);
+
+        Order order = orderMapper.selectOne(queryWrapper);
+        order.setState(2);
+        int state = orderMapper.update(order, queryWrapper);
+
+        if (state == 1) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
 }

@@ -28,4 +28,9 @@ public class OrderController {
     public Integer getSmIdByOrderId(@RequestBody Integer orderId) {
         return orderService.getSmIdByOrderId(orderId);
     }
+
+    @RequestMapping("/archiveOrder")
+    public Boolean archiveOrder(@RequestBody Integer orderId) {
+        return orderService.archiveOrder(orderId);
+    }
 }
