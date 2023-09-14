@@ -76,11 +76,10 @@
                             label="操作"
                             width="120">
                             <template #default="scope">
-                                <el-button 
-                                    size="small"
-                                    :type="scope.row.state==1?'primary':'success'"
-                                    @click="toReportContent(scope.row.state,scope.row.smId)">
-                                    {{ scope.row.state==1?'编辑体检报告':'查看体检报告' }}
+                                <el-button size="small"
+                                    :type="scope.row.state == 1 ? 'primary' : 'success'"
+                                    @click="toReportContent(scope.row)">
+                                    {{ scope.row.state == 1 ? '编辑体检报告' : '查看体检报告' }}
                                 </el-button>
                             </template>
                         </el-table-column>
@@ -102,6 +101,7 @@ import { onBeforeMount, reactive, toRefs } from 'vue';
 import { getSessionStorage, removeSessionStorage } from '@/common'
 import { useRouter } from 'vue-router';
 import axios from 'axios'
+import { ElMessage } from 'element-plus';
 
 axios.defaults.baseURL = 'http://localhost:9090'
 export default {
@@ -147,8 +147,45 @@ export default {
             //获取列表数据
             toQuery(1);
         })
-        function toReportContent(state,smId){
-            //跳转到体检报告内容
+
+        function toReportContent(row) {
+            if (row.state == 1) {//跳转到体检报告内容
+                //获取smId
+                let smId;
+                axios.post('order/getSmIdByOrderId', { orderId: row.orderId })
+                    .then(res => {
+                        smId = res.data.data;
+                        if (!smId) {
+                            ElMessage({
+                                type: 'error',
+                                message: '创建报告模板失败!'
+                            });
+                            return;
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+                    //创建模板
+                axios.post('cireport/createReportTemplate', { orderId: row.orderId, smId: smId })
+                    .then(res => {
+                        let result = res.data.data;
+                        if (result) {
+                            router.push({ path: '/reportContent', query: { users:JSON.stringify(row) } });
+                        } else {
+                            ElMessage({
+                                type: 'error',
+                                message: '创建报告模板失败!'
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            } else {
+                //查看体检报告
+            }
+
         }
         function exit() {
             removeSessionStorage('doctor');

@@ -19,6 +19,7 @@ public class OrderController {
         return orderService.getOrdersByOrderRequestDTO(orderRequestDTO);
     }
 
+
     @RequestMapping("/isOrderArchived")
     public Boolean isOrderArchived(@RequestBody Integer orderId) {
         return orderService.isOrderArchived(orderId);
