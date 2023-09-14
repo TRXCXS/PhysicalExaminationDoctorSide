@@ -43,6 +43,7 @@ public class CireportServiceImpl extends MPJBaseServiceImpl<CireportMapper, Cire
         List<Integer> checkItemIdList = setmealDetailedService.getCheckItemIdListBySetmealId(setmealId);
         List<CheckItem> checkItemList = checkItemService.getCheckItemListByIdList(checkItemIdList);
 
+        // TODO: 2023/9/13 下面的插入要优化为批量插入
         for (CheckItem checkItem : checkItemList) {
             Cireport cireport = new Cireport();
             cireport.setCiId(checkItem.getCiId());
