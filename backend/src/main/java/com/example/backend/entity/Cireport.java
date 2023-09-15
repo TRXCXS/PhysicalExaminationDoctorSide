@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("cireport")
+/**
+ * cireport表对应的实体类
+ */
 public class Cireport {
     /**
      * 检查项编号

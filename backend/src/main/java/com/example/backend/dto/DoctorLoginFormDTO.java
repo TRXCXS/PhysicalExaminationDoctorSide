@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+/**
+ * 医生登录表单DTO
+ */
+
 public class DoctorLoginFormDTO {
     private String docCode;
     private String password;

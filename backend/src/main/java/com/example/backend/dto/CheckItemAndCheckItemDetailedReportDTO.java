@@ -11,6 +11,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+/**
+ * 返回报告页面的DTO，由CheckItem和对应的CheckItemDetailedReport组成
+ */
+
 public class CheckItemAndCheckItemDetailedReportDTO {
     CheckItem checkItem;
     List<CiDetailedReport> ciDetailedReportList;

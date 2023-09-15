@@ -12,6 +12,9 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("users")
+/**
+ * users表对应的实体类
+ */
 public class User {
     @TableId(value = "userId")
     private String userId;

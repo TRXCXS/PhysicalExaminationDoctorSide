@@ -11,12 +11,20 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends MPJBaseServiceImpl<UserMapper, User> implements UserService {
     private final UserMapper userMapper;
 
+    /**
+     * 用户登录方法
+     *
+     * @param userLoginFormDTO：封装User对象登录表单的DTO
+     * @return 返回值Result封装查找结果，找到则返回用户对象，否则返回的是null
+     * @throws Exception
+     */
     @Override
     public Result getUserByUserIdAndPassword(@NotNull UserLoginFormDTO userLoginFormDTO) throws Exception {
         Result result = getUserByUserId(userLoginFormDTO.getUserId());
@@ -39,6 +47,12 @@ public class UserServiceImpl extends MPJBaseServiceImpl<UserMapper, User> implem
         return result;
     }
 
+    /**
+     * 判断用户是否存在
+     *
+     * @param userId：User对象的Id
+     * @return 返回值Result封装查找结果，找到则返回用户对象，否则返回的是null
+     */
     @Override
     public Result getUserByUserId(String userId) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -52,7 +66,15 @@ public class UserServiceImpl extends MPJBaseServiceImpl<UserMapper, User> implem
         return Result.success(user);
     }
 
+    /**
+     * 保存新的用户对象
+     *
+     * @param user：User对象
+     * @return 返回值Result表示是否保存成功
+     * @throws Exception
+     */
     @Override
+    @Transactional
     public Result saveUser(@NotNull User user) throws Exception {
         // 密码明文加密
         user.setPassword(SHA256.encrypt(user.getPassword()));

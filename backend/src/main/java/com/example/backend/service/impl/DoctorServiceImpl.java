@@ -11,12 +11,20 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class DoctorServiceImpl extends MPJBaseServiceImpl<DoctorMapper, Doctor> implements DoctorService {
     private final DoctorMapper doctorMapper;
 
+    /**
+     * 医生登录接口对应的服务类实现方法
+     *
+     * @param doctorLoginFormDTO：医生登录表单DTO
+     * @return Result封装查询结果，登录成功返回医生对象，否则返回null
+     * @throws Exception
+     */
     @Override
     public Result getDoctorByDocCodeAndPassword(@NotNull DoctorLoginFormDTO doctorLoginFormDTO) throws Exception {
         Result result = getDoctorByDocCode(doctorLoginFormDTO.getDocCode());
@@ -38,6 +46,12 @@ public class DoctorServiceImpl extends MPJBaseServiceImpl<DoctorMapper, Doctor> 
         return result;
     }
 
+    /**
+     * 判断医生是否存在
+     *
+     * @param docCode：医生的标识属性
+     * @return Result封装查询结果，登录成功返回医生对象，否则返回null
+     */
     @Override
     public Result getDoctorByDocCode(String docCode) {
         QueryWrapper<Doctor> queryWrapper = new QueryWrapper<>();
@@ -51,7 +65,15 @@ public class DoctorServiceImpl extends MPJBaseServiceImpl<DoctorMapper, Doctor> 
         return Result.success(doctor);
     }
 
+    /**
+     * 保存医生对象的方法
+     *
+     * @param doctor：医生对象
+     * @return Result封装保存结果
+     * @throws Exception
+     */
     @Override
+    @Transactional
     public Result saveDoctor(@NotNull Doctor doctor) throws Exception {
         /**
          * 传入的Doctor对象，主键自增的字段不应该有值。

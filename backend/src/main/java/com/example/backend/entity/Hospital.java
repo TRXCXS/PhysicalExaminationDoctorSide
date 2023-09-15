@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("hospital")
+/**
+ * hospital表对应的实体类
+ */
 public class Hospital {
     /**
      * 医院编号

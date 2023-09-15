@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+/**
+ * 订单查询时返回的DTOBody，封装查询的所有字段
+ */
+
 public class OrderResponseDTOBody {
     private Integer orderId;
     private String userId;

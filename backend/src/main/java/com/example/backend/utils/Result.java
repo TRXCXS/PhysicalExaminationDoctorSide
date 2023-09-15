@@ -11,6 +11,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+/**
+ * 封装的Result类
+ * ①返回时不暴露内容。
+ * ②统一各种情况下的返回。
+ */
+
 public class Result {
     private Boolean isSuccess;
     private String errorMessage;
@@ -37,12 +44,12 @@ public class Result {
         return new Result(false, errorMessage, null, null);
     }
 
-    @Contract("_ -> new")
+    @Contract("_, _ -> new")
     public static @NotNull Result fail(String errorMessage, Object data) {
         return new Result(false, errorMessage, data, null);
     }
 
-    @Contract("_ -> new")
+    @Contract("_, _, _ -> new")
     public static @NotNull Result fail(String errorMessage, List<?> data, Long dataNumber) {
         return new Result(false, errorMessage, data, dataNumber);
     }

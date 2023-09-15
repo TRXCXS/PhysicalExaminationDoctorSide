@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("checkitemdetailed")
+/**
+ * checkitemdetailed表对应的实体类
+ */
 public class CheckItemDetailed {
     /**
      * 检查项明细编号

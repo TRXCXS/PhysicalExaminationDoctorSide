@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("doctor")
+/**
+ * doctor表对应的实体类
+ */
 public class Doctor {
     @TableId(value = "docId", type = IdType.AUTO)
     private Integer docId;

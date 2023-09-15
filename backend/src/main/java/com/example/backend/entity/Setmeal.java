@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("setmeal")
+/**
+ * setmeal表对应的实体类
+ */
 public class Setmeal {
     /**
      * 套餐编号

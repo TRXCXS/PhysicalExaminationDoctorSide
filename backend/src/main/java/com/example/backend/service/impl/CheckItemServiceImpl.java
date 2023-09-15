@@ -17,6 +17,12 @@ import java.util.List;
 public class CheckItemServiceImpl extends MPJBaseServiceImpl<CheckItemMapper, CheckItem> implements CheckItemService {
     private final CheckItemMapper checkItemMapper;
 
+    /**
+     * 根据checkItemId获得对应的检查大项对象
+     *
+     * @param checkItemId：检查大项Id
+     * @return checkItemId获得对应的检查大项对象
+     */
     @Override
     public CheckItem getCheckItemById(Integer checkItemId) {
         return checkItemMapper.selectOne(
@@ -24,6 +30,12 @@ public class CheckItemServiceImpl extends MPJBaseServiceImpl<CheckItemMapper, Ch
         );
     }
 
+    /**
+     * 根据checkItemIdList获得对应的所有CheckItem组成的列表
+     *
+     * @param checkItemIdList：检查大项Id组成的列表
+     * @return List<CheckItem>：所有CheckItem组成的列表
+     */
     @Override
     public List<CheckItem> getCheckItemListByIdList(@NotNull List<Integer> checkItemIdList) {
         List<CheckItem> checkItemList = new ArrayList<>();

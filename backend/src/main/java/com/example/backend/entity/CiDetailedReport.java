@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("cidetailedreport")
+/**
+ * cidetailedreport表对应的实体类
+ */
 public class CiDetailedReport {
     /**
      * 检查项明细报告主键

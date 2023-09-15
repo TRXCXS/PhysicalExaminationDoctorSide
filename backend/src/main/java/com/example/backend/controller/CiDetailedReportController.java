@@ -26,6 +26,12 @@ public class CiDetailedReportController {
     private final CheckItemService checkItemService;
     private final CiDetailedReportService ciDetailedReportService;
 
+    /**
+     * 根据orderId获得对应的Checkitem和CheckitemDetailedReport列表组成的DTO的列表
+     *
+     * @param orderId：订单Id
+     * @return List<CheckItemAndCheckItemDetailedReportDTO>：订单Id对应的Checkitem和CheckitemDetailedReport列表组成的DTO的列表
+     */
     @RequestMapping("/getAllCheckitemAndCheckitemDetailedReportByOrderId")
     public List<CheckItemAndCheckItemDetailedReportDTO> getAllCheckitemAndCheckitemDetailedReportByOrderId(@RequestParam Integer orderId) {
         List<CheckItemAndCheckItemDetailedReportDTO> checkItemAndCheckItemDetailedReportDTOList = new ArrayList<>();
@@ -43,6 +49,12 @@ public class CiDetailedReportController {
         return checkItemAndCheckItemDetailedReportDTOList;
     }
 
+    /**
+     * 传入ciDetailedReportList列表，进行批量更新
+     *
+     * @param ciDetailedReportList：检查小项列表
+     * @return Result封装更新结果
+     */
     @RequestMapping("/updateCiDetailedReportList")
     public Result updateCiDetailedReportList(@RequestBody List<CiDetailedReport> ciDetailedReportList) {
         return ciDetailedReportService.updateCiDetailedReportList(ciDetailedReportList);

@@ -26,11 +26,18 @@ public class CireportServiceImpl extends MPJBaseServiceImpl<CireportMapper, Cire
     private final CheckItemService checkItemService;
     private final CheckItemDetailedService checkItemDetailedService;
 
+    /**
+     * 创建报告模板
+     *
+     * @param orderId：订单Id
+     * @return 返回Result封装创建订单模板结果
+     */
     @Override
     @Transactional
     public Result createReportTemplate(Integer orderId) {
         /**
          * 如果cireport表中有了模版数据，那么checkitemdetailed也一定有了。
+         * 因此不再重复创建。
          */
         if (cireportMapper.exists(
                 new QueryWrapper<Cireport>()

@@ -16,6 +16,11 @@ import java.util.List;
 public class SetmealServiceImpl extends MPJBaseServiceImpl<SetmealMapper, Setmeal> implements SetmealService {
     private final SetmealMapper setmealMapper;
 
+    /**
+     * 获取所有的套餐对象
+     *
+     * @return 所有的套餐对象组成的列表
+     */
     @Override
     public Result getAllSetmeal() {
         QueryWrapper<Setmeal> queryWrapper = new QueryWrapper<>();

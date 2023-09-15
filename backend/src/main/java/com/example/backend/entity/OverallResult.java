@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("overallresult")
+/**
+ * overallresult表对应的实体类
+ */
 public class OverallResult {
     /**
      * 总检结论项编号

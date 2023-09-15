@@ -22,6 +22,12 @@ public class CheckItemDetailedController {
     private final CheckItemService checkItemService;
     private final CheckItemDetailedService checkItemDetailedService;
 
+    /**
+     * 传入套餐Id，获取Checkitem和CheckitemDetailed列表组成的DTO的列表
+     *
+     * @param setmealId：套餐Id
+     * @return List<CheckItemAndCheckItemDetailedDTO>：Checkitem和CheckitemDetailed列表组成的DTO的列表
+     */
     @RequestMapping("/getAllCheckitemAndCheckitemDetailedBySetmealId")
     public List<CheckItemAndCheckItemDetailedDTO> getAllCheckitemAndCheckitemDetailedBySetmealId(@RequestBody Integer setmealId) {
         List<CheckItemAndCheckItemDetailedDTO> checkItemAndCheckItemDetailedDTOList = new ArrayList<>();

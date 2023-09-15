@@ -9,6 +9,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+/**
+ * 订单查询时返回的DTO，封装DTOBody和分页的相关参数
+ */
+
 public class OrderResponseDTO {
     private List<OrderResponseDTOBody> orderResponseDTOBodyList;
 

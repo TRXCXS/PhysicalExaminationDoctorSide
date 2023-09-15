@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("orders")
+/**
+ * orders表对应的实体类
+ */
 public class Order {
     @TableId("orderId")
     private Integer orderId;

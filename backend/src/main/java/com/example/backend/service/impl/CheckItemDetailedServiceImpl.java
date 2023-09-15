@@ -15,6 +15,12 @@ import java.util.List;
 public class CheckItemDetailedServiceImpl extends MPJBaseServiceImpl<CheckItemDetailedMapper, CheckItemDetailed> implements CheckItemDetailedService {
     private final CheckItemDetailedMapper checkItemDetailedMapper;
 
+    /**
+     * 根据检查大项Id获得对应的检查小项列表
+     *
+     * @param checkItemId：检查大项Id
+     * @return 检查大项Id获得对应的检查小项列表
+     */
     @Override
     public List<CheckItemDetailed> getCheckItemDetailedByCheckItemId(Integer checkItemId) {
         return checkItemDetailedMapper.selectList(

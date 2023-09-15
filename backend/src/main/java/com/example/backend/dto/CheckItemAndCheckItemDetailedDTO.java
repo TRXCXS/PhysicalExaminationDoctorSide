@@ -11,6 +11,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+/**
+ * CheckItem和对应的CheckItemDetailed组成的DTO
+ */
+
 public class CheckItemAndCheckItemDetailedDTO {
     CheckItem checkItem;
     List<CheckItemDetailed> checkItemDetailedList;

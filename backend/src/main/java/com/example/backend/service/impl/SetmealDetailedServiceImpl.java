@@ -17,6 +17,12 @@ import java.util.Map;
 public class SetmealDetailedServiceImpl extends MPJBaseServiceImpl<SetmealDetailedMapper, SetmealDetailed> implements SetmealDetailedService {
     private final SetmealDetailedMapper setmealDetailedMapper;
 
+    /**
+     * 根据套餐Id获得对应的检查大项Id列表
+     *
+     * @param setmealId：套餐Id
+     * @return 套餐Id获得对应的检查大项Id组成的列表
+     */
     @Override
     public List<Integer> getCheckItemIdListBySetmealId(int setmealId) {
         QueryWrapper<SetmealDetailed> queryWrapper = new QueryWrapper<>();

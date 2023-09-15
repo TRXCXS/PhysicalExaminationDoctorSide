@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("setmealdetailed")
+/**
+ * setmealdetailed表对应的实体类
+ */
 public class SetmealDetailed {
     /**
      * 套餐明细编号（无意义主键）

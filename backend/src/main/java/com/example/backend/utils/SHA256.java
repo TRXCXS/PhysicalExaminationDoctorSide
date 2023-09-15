@@ -7,6 +7,13 @@ import java.security.MessageDigest;
 public class SHA256 {
     private static final String SHA_256_ALGORITHM = "SHA-256";
 
+    /**
+     * 加密方法
+     *
+     * @param data：明文
+     * @return 密文
+     * @throws Exception
+     */
     public static @NotNull String encrypt(@NotNull String data) throws Exception {
         //获取SHA-256算法实例
         MessageDigest messageDigest = MessageDigest.getInstance(SHA_256_ALGORITHM);

@@ -18,6 +18,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,12 @@ import java.util.List;
 public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> implements OrderService {
     private final OrderMapper orderMapper;
 
+    /**
+     * 检查orderRequestDTO的条件，为mpjLambdaWrapper添加相应的eq
+     *
+     * @param mpjLambdaWrapper：待查询的wrapper
+     * @param orderRequestDTO：封装查询条件的DTO
+     */
     @Override
     public void checkOrderRequestDTO(MPJLambdaWrapper<Order> mpjLambdaWrapper, @NotNull OrderRequestDTO orderRequestDTO) {
         if (!orderRequestDTO.getUserId().equals("")) {
@@ -52,8 +59,8 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
     /**
      * 获取符合orderRequestDTO条件的记录数
      *
-     * @param orderRequestDTO
-     * @return
+     * @param orderRequestDTO：封装查询条件的DTO
+     * @return：符合orderRequestDTO条件的记录数
      */
     @Override
     public int getNumberOfOrdersByOrderRequestDTO(@NotNull OrderRequestDTO orderRequestDTO) {
@@ -68,8 +75,8 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
     /**
      * 获取符合orderRequestDTO条件的所有记录
      *
-     * @param orderRequestDTO
-     * @return
+     * @param orderRequestDTO：封装查询条件的DTO
+     * @return List<OrderResponseDTOBody>：符合orderRequestDTO条件的所有订单记录相关字段组成的回复DTO的body的列表
      */
     @Override
     public List<OrderResponseDTOBody> getOrderResponseDTOBodyListByOrderRequestDTO(OrderRequestDTO orderRequestDTO) {
@@ -95,6 +102,12 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
         return iPage.getRecords();
     }
 
+    /**
+     * 获取符合orderRequestDTO条件的orderResponseDTO
+     *
+     * @param orderRequestDTO：封装查询条件的DTO
+     * @return Result封装orderResponseDTO
+     */
     @Override
     public Result getOrdersByOrderRequestDTO(@NotNull OrderRequestDTO orderRequestDTO) {
         OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
@@ -150,6 +163,12 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
         return Result.success(orderResponseDTO);
     }
 
+    /**
+     * 判断订单是否以及归档
+     *
+     * @param orderId：订单Id
+     * @return Boolean指表示是否已经归档
+     */
     @Override
     public Boolean isOrderArchived(Integer orderId) {
         return orderMapper.exists(
@@ -159,6 +178,12 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
         );
     }
 
+    /**
+     * 获取订单对应的套餐Id
+     *
+     * @param orderId：订单Id
+     * @return 套餐Id
+     */
     @Override
     public Integer getSmIdByOrderId(Integer orderId) {
         return orderMapper.selectOne(
@@ -167,7 +192,14 @@ public class OrderServiceImpl extends MPJBaseServiceImpl<OrderMapper, Order> imp
         ).getSmId();
     }
 
+    /**
+     * 订单归档
+     *
+     * @param orderId：订单Id
+     * @return Boolean值表示是否成功归档
+     */
     @Override
+    @Transactional
     public Boolean archiveOrder(Integer orderId) {
         QueryWrapper<Order> queryWrapper = new QueryWrapper<Order>().eq("orderId", orderId);
 
