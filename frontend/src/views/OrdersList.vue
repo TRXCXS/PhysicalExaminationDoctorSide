@@ -136,8 +136,8 @@ export default {
                 { label: '体检医院', prop: 'hospitalName', width: '120' },
                 { label: '体检日期', prop: 'orderDate', width: '120' }
             ],
-
-            reportState:1,
+            //报告是否归档
+            reportState: 1,
         })
 
 
@@ -151,46 +151,43 @@ export default {
         })
 
         function toReportContent(row) {
-            if (state.reportState==1) {//跳转到体检报告内容
-                //获取smId
-                let smId;
-                // , { orderId: row.orderId }
-                axios.get('order/getSmIdByOrderId?orderId='+row.orderId)
-                    .then(res => {
-                        smId = res.data.data;
-                        console.log(smId)
-                        if (!smId) {
-                            ElMessage({
-                                type: 'error',
-                                message: '创建报告模板失败!'
-                            });
-                            return;
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
+            //获取smId
+            let smId;
+            // , { orderId: row.orderId }
+            axios.get('order/getSmIdByOrderId?orderId=' + row.orderId)
+                .then(res => {
+                    smId = res.data;
+                    console.log(smId)
+                    if (!smId) {
+                        ElMessage({
+                            type: 'error',
+                            message: '创建报告模板失败!'
+                        });
                         return;
-                    })
-                    //创建模板
-                axios.get('cireport/createReportTemplate?orderId='+row.orderId)
-                    .then(res => {
-                        let result = res.data.data;
-                        if (result) {
-                            console.log(row)
-                            router.push({ path: '/reportcontent', query: { users:JSON.stringify(row) } });
-                        } else {
-                            ElMessage({
-                                type: 'error',
-                                message: '创建报告模板失败!'
-                            });
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-            } else {
-                //查看体检报告
-            }
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    return;
+                })
+            //创建模板
+            axios.get('cireport/createReportTemplate?orderId=' + row.orderId)
+                .then(res => {
+                    let result = res.data.isSuccess;
+                    if (result) {
+                        console.log(row)
+                        router.push({ path: '/reportcontent', query: { users: JSON.stringify(row), smId, reportState: state.reportState } });
+                    } else {
+                        ElMessage({
+                            type: 'error',
+                            message: '创建报告模板失败!'
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
 
         }
         function exit() {
@@ -238,7 +235,7 @@ export default {
                         item.sex = item.sex == 1 ? '男' : '女'
                     })
                     // console.log(list)
-                    state.reportState=state.selectForm.state;
+                    state.reportState = state.selectForm.state;
                 })
                 .catch(err => {
                     console.log(err);
