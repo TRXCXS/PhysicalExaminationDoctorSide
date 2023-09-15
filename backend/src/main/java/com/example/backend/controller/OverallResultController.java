@@ -48,4 +48,26 @@ public class OverallResultController {
     public List<OverallResult> getOverallResultListByOrderId(@RequestParam Integer orderId) {
         return overallResultService.getOverallResultListByOrderId(orderId);
     }
+
+    /**
+     * 更新总检结论对象
+     *
+     * @param overallResult：待更新的总检结论对象
+     * @return Boolean值表示是否更新成功
+     */
+    @RequestMapping("/updateOverallResult")
+    public Boolean updateOverallResult(@RequestBody OverallResult overallResult) {
+        return overallResultService.updateOverallResult(overallResult);
+    }
+
+    /**
+     * 删除总检结论对象
+     *
+     * @param orId：总检结论对象Id
+     * @return Boolean值表示是否删除成功
+     */
+    @RequestMapping("/deleteOverallResult")
+    public Boolean deleteOverallResult(@RequestParam Integer orId) {
+        return overallResultService.deleteOverallResult(orId);
+    }
 }

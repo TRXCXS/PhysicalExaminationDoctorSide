@@ -34,4 +34,20 @@ public interface OverallResultService extends MPJBaseService<OverallResult> {
      * @return orderId对应的总检结论列表
      */
     List<OverallResult> getOverallResultListByOrderId(Integer orderId);
+
+    /**
+     * 更新总检结论
+     *
+     * @param overallResult：待更新的总检结论对象
+     * @return
+     */
+    Boolean updateOverallResult(OverallResult overallResult);
+
+    /**
+     * 删除总检结论
+     *
+     * @param orId：总检结论对象Id
+     * @return
+     */
+    Boolean deleteOverallResult(Integer orId);
 }

@@ -59,4 +59,42 @@ public class OverallResultServiceImpl extends MPJBaseServiceImpl<OverallResultMa
                 new QueryWrapper<OverallResult>().eq("orderId", orderId)
         );
     }
+
+    /**
+     * 更新总检结论对象
+     *
+     * @param overallResult：待更新的总检结论对象
+     * @return Boolean值表示是否更新成功
+     */
+    @Override
+    public Boolean updateOverallResult(OverallResult overallResult) {
+        int state = overallResultMapper.update(overallResult,
+                new QueryWrapper<OverallResult>()
+                        .eq("orId", overallResult.getOrId()));
+
+        if (state == 1) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
+
+    /**
+     * 删除总检结论对象
+     *
+     * @param orId：总检结论对象Id
+     * @return Boolean值表示是否删除成功
+     */
+    @Override
+    public Boolean deleteOverallResult(Integer orId) {
+        int state = overallResultMapper.delete(
+                new QueryWrapper<OverallResult>()
+                        .eq("orId", orId));
+
+        if (state == 1) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
 }
