@@ -11,6 +11,7 @@ import com.example.backend.utils.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class CiDetailedReportController {
     private final CiDetailedReportService ciDetailedReportService;
 
     @RequestMapping("/getAllCheckitemAndCheckitemDetailedReportByOrderId")
-    public List<CheckItemAndCheckItemDetailedReportDTO> getAllCheckitemAndCheckitemDetailedReportByOrderId(@RequestBody Integer orderId) {
+    public List<CheckItemAndCheckItemDetailedReportDTO> getAllCheckitemAndCheckitemDetailedReportByOrderId(@RequestParam Integer orderId) {
         List<CheckItemAndCheckItemDetailedReportDTO> checkItemAndCheckItemDetailedReportDTOList = new ArrayList<>();
 
         Integer setmealId = orderService.getSmIdByOrderId(orderId);
