@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class OverallResultServiceImpl extends MPJBaseServiceImpl<OverallResultMapper, OverallResult> implements OverallResultService {
@@ -41,6 +43,19 @@ public class OverallResultServiceImpl extends MPJBaseServiceImpl<OverallResultMa
     @Override
     public OverallResult getOverallResultByOrderId(Integer orderId) {
         return overallResultMapper.selectOne(
+                new QueryWrapper<OverallResult>().eq("orderId", orderId)
+        );
+    }
+
+    /**
+     * 获取总检结论列表
+     *
+     * @param orderId：订单Id
+     * @return 获取订单Id对应的总检结论列表
+     */
+    @Override
+    public List<OverallResult> getOverallResultListByOrderId(Integer orderId) {
+        return overallResultMapper.selectList(
                 new QueryWrapper<OverallResult>().eq("orderId", orderId)
         );
     }

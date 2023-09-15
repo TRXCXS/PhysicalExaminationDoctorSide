@@ -4,6 +4,8 @@ import com.example.backend.entity.OverallResult;
 import com.github.yulichang.base.MPJBaseService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 /**
  * OverallResultService
@@ -24,4 +26,12 @@ public interface OverallResultService extends MPJBaseService<OverallResult> {
      * @return 查找到总检结论则返回总检结论对象，否则返回null
      */
     OverallResult getOverallResultByOrderId(Integer orderId);
+
+    /**
+     * 获取总检结论列表
+     *
+     * @param orderId
+     * @return orderId对应的总检结论列表
+     */
+    List<OverallResult> getOverallResultListByOrderId(Integer orderId);
 }
