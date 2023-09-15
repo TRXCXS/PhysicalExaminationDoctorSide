@@ -20,21 +20,21 @@ public class CiDetailedReportServiceImpl extends MPJBaseServiceImpl<CiDetailedRe
 
     /**
      * 根据checkItemId和orderId获得所有的CiDetailedReport组成的列表
-     * 
+     *
      * @param checkItemId：检查大项Id
      * @param orderId：订单编号Id
      * @return List<CiDetailedReport>：CiDetailedReport组成的列表
      */
     @Override
-    public List<CiDetailedReport> getCheckItemDetailedReportByCheckItemId(Integer checkItemId,Integer orderId) {
+    public List<CiDetailedReport> getCheckItemDetailedReportByCheckItemId(Integer checkItemId, Integer orderId) {
         return ciDetailedReportMapper.selectList(
-                new QueryWrapper<CiDetailedReport>().eq("ciId", checkItemId).eq("orderId",orderId)
+                new QueryWrapper<CiDetailedReport>().eq("ciId", checkItemId).eq("orderId", orderId)
         );
     }
 
     /**
      * 批量更新检查小项列表
-     * 
+     *
      * @param ciDetailedReportList：待更新的检查小项列表
      * @return 更新结果
      */

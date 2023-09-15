@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService extends MPJBaseService<User> {
     /**
-     *
      * @param userLoginFormDTO：封装User对象登录表单的DTO
      * @return 查询成功Result封装User对象，否则封装ErrorMessage
      * @throws Exception
@@ -20,14 +19,12 @@ public interface UserService extends MPJBaseService<User> {
     Result getUserByUserIdAndPassword(UserLoginFormDTO userLoginFormDTO) throws Exception;
 
     /**
-     *
      * @param userId：User对象的Id
      * @return 查询成功Result封装User对象，否则封装ErrorMessage
      */
     Result getUserByUserId(String userId);
 
     /**
-     *
      * @param user：User对象
      * @return 返回对象Result的isSuccess属性表示保存User是否成功
      * @throws Exception

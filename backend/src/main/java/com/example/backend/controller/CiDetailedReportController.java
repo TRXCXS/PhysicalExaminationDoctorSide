@@ -41,7 +41,7 @@ public class CiDetailedReportController {
 
         for (Integer checkItemId : checkItemIdList) {
             CheckItem checkItem = checkItemService.getCheckItemById(checkItemId);
-            List<CiDetailedReport> ciDetailedReportList = ciDetailedReportService.getCheckItemDetailedReportByCheckItemId(checkItemId,orderId);
+            List<CiDetailedReport> ciDetailedReportList = ciDetailedReportService.getCheckItemDetailedReportByCheckItemId(checkItemId, orderId);
             CheckItemAndCheckItemDetailedReportDTO checkItemAndCheckItemDetailedReportDTO = new CheckItemAndCheckItemDetailedReportDTO(checkItem, ciDetailedReportList);
             checkItemAndCheckItemDetailedReportDTOList.add(checkItemAndCheckItemDetailedReportDTO);
         }

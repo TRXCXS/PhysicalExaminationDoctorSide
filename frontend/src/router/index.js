@@ -3,6 +3,7 @@ import Login from '../views/Login.vue'
 import OrdersList from '../views/OrdersList.vue'
 import Register from '../views/Register.vue'
 import ReportContent from '../views/ReportContent.vue'
+
 const routes = [
     {
         path: '/',
@@ -25,9 +26,9 @@ const routes = [
         component: Register
     },
     {
-        path:'/reportcontent',
-        name:'reportcontent',
-        component:ReportContent
+        path: '/reportcontent',
+        name: 'reportcontent',
+        component: ReportContent
     },
 ]
 

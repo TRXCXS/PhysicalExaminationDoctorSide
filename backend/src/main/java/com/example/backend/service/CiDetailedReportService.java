@@ -19,7 +19,7 @@ public interface CiDetailedReportService extends MPJBaseService<CiDetailedReport
      * @param orderId
      * @return
      */
-    List<CiDetailedReport> getCheckItemDetailedReportByCheckItemId(Integer checkItemId,Integer orderId);
+    List<CiDetailedReport> getCheckItemDetailedReportByCheckItemId(Integer checkItemId, Integer orderId);
 
     /**
      * 更新checkItemDetailedReportList
