@@ -77,9 +77,9 @@
                             width="120">
                             <template #default="scope">
                                 <el-button size="small"
-                                    :type="scope.row.state == 1 ? 'primary' : 'success'"
+                                    :type="reportState == 1 ? 'primary' : 'success'"
                                     @click="toReportContent(scope.row)">
-                                    {{ scope.row.state == 1 ? '编辑体检报告' : '查看体检报告' }}
+                                    {{ reportState == 1 ? '编辑体检报告' : '查看体检报告' }}
                                 </el-button>
                             </template>
                         </el-table-column>
@@ -136,6 +136,8 @@ export default {
                 { label: '体检医院', prop: 'hospitalName', width: '120' },
                 { label: '体检日期', prop: 'orderDate', width: '120' }
             ],
+
+            reportState:1,
         })
 
 
@@ -149,12 +151,14 @@ export default {
         })
 
         function toReportContent(row) {
-            if (row.state == 1) {//跳转到体检报告内容
+            if (state.reportState==1) {//跳转到体检报告内容
                 //获取smId
                 let smId;
-                axios.post('order/getSmIdByOrderId', { orderId: row.orderId })
+                // , { orderId: row.orderId }
+                axios.get('order/getSmIdByOrderId?orderId='+row.orderId)
                     .then(res => {
                         smId = res.data.data;
+                        console.log(smId)
                         if (!smId) {
                             ElMessage({
                                 type: 'error',
@@ -165,13 +169,15 @@ export default {
                     })
                     .catch(err => {
                         console.log(err);
+                        return;
                     })
                     //创建模板
-                axios.post('cireport/createReportTemplate', { orderId: row.orderId, smId: smId })
+                axios.get('cireport/createReportTemplate?orderId='+row.orderId)
                     .then(res => {
                         let result = res.data.data;
                         if (result) {
-                            router.push({ path: '/reportContent', query: { users:JSON.stringify(row) } });
+                            console.log(row)
+                            router.push({ path: '/reportcontent', query: { users:JSON.stringify(row) } });
                         } else {
                             ElMessage({
                                 type: 'error',
@@ -220,7 +226,7 @@ export default {
             if (state.selectForm.orderDate == null) {
                 state.selectForm.orderDate = '';
             }
-            console.log(state.selectForm)
+            //console.log(state.selectForm)
             //获取列表数据
             //orders/query
             axios.post('order/getOrdersByOrderRequestDTO', state.selectForm)
@@ -231,10 +237,13 @@ export default {
                     list.map((item, index) => {
                         item.sex = item.sex == 1 ? '男' : '女'
                     })
+                    // console.log(list)
+                    state.reportState=state.selectForm.state;
                 })
                 .catch(err => {
                     console.log(err);
                 })
+
         }
         function currentChange(currentPageNumber) {
             toQuery(currentPageNumber);
