@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public interface CiDetailedReportService extends MPJBaseService<CiDetailedReport> {
-    List<CiDetailedReport> getCheckItemDetailedReportByCheckItemId(Integer checkItemId);
+    List<CiDetailedReport> getCheckItemDetailedReportByCheckItemId(Integer checkItemId,Integer orderId);
 
     Result updateCiDetailedReportList(List<CiDetailedReport> ciDetailedReportList);
 }

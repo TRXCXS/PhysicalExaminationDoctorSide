@@ -5,6 +5,7 @@ import com.example.backend.entity.CheckItem;
 import com.example.backend.entity.CiDetailedReport;
 import com.example.backend.service.CheckItemService;
 import com.example.backend.service.CiDetailedReportService;
+import com.example.backend.service.OrderService;
 import com.example.backend.service.SetmealDetailedService;
 import com.example.backend.utils.Result;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +21,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CiDetailedReportController {
     private final SetmealDetailedService setmealDetailedService;
+    private final OrderService orderService;
     private final CheckItemService checkItemService;
     private final CiDetailedReportService ciDetailedReportService;
 
-    @RequestMapping("/getAllCheckitemAndCheckitemDetailedReportBySetmealId")
-    public List<CheckItemAndCheckItemDetailedReportDTO> getAllCheckitemAndCheckitemDetailedReportBySetmealId(@RequestBody Integer setmealId) {
+    @RequestMapping("/getAllCheckitemAndCheckitemDetailedReportByOrderId")
+    public List<CheckItemAndCheckItemDetailedReportDTO> getAllCheckitemAndCheckitemDetailedReportByOrderId(@RequestBody Integer orderId) {
         List<CheckItemAndCheckItemDetailedReportDTO> checkItemAndCheckItemDetailedReportDTOList = new ArrayList<>();
 
+        Integer setmealId = orderService.getSmIdByOrderId(orderId);
         List<Integer> checkItemIdList = setmealDetailedService.getCheckItemIdListBySetmealId(setmealId);
 
         for (Integer checkItemId : checkItemIdList) {
             CheckItem checkItem = checkItemService.getCheckItemById(checkItemId);
-            List<CiDetailedReport> ciDetailedReportList = ciDetailedReportService.getCheckItemDetailedReportByCheckItemId(checkItemId);
+            List<CiDetailedReport> ciDetailedReportList = ciDetailedReportService.getCheckItemDetailedReportByCheckItemId(checkItemId,orderId);
             CheckItemAndCheckItemDetailedReportDTO checkItemAndCheckItemDetailedReportDTO = new CheckItemAndCheckItemDetailedReportDTO(checkItem, ciDetailedReportList);
             checkItemAndCheckItemDetailedReportDTOList.add(checkItemAndCheckItemDetailedReportDTO);
         }

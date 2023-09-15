@@ -19,9 +19,9 @@ public class CiDetailedReportServiceImpl extends MPJBaseServiceImpl<CiDetailedRe
     private final CiDetailedReportMapper ciDetailedReportMapper;
 
     @Override
-    public List<CiDetailedReport> getCheckItemDetailedReportByCheckItemId(Integer checkItemId) {
+    public List<CiDetailedReport> getCheckItemDetailedReportByCheckItemId(Integer checkItemId,Integer orderId) {
         return ciDetailedReportMapper.selectList(
-                new QueryWrapper<CiDetailedReport>().eq("ciId", checkItemId)
+                new QueryWrapper<CiDetailedReport>().eq("ciId", checkItemId).eq("orderId",orderId)
         );
     }
 
