@@ -28,9 +28,7 @@ public class CiDetailedReportServiceImpl extends MPJBaseServiceImpl<CiDetailedRe
     @Override
     @Transactional
     public Result updateCiDetailedReportList(@NotNull List<CiDetailedReport> ciDetailedReportList) {
-        ciDetailedReportList.forEach(CiDetailedReport -> {
-            ciDetailedReportMapper.update(CiDetailedReport, new QueryWrapper<CiDetailedReport>().eq("cidrId", CiDetailedReport.getCidrId()));
-        });
+        ciDetailedReportList.forEach(CiDetailedReport -> ciDetailedReportMapper.update(CiDetailedReport, new QueryWrapper<CiDetailedReport>().eq("cidrId", CiDetailedReport.getCidrId())));
         return Result.success();
     }
 }

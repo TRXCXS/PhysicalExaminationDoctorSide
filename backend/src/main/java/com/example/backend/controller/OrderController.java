@@ -6,6 +6,7 @@ import com.example.backend.utils.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,17 +21,17 @@ public class OrderController {
     }
 
     @RequestMapping("/isOrderArchived")
-    public Boolean isOrderArchived(@RequestBody Integer orderId) {
+    public Boolean isOrderArchived(@RequestParam Integer orderId) {
         return orderService.isOrderArchived(orderId);
     }
 
     @RequestMapping("/getSmIdByOrderId")
-    public Integer getSmIdByOrderId(@RequestBody Integer orderId) {
+    public Integer getSmIdByOrderId(@RequestParam Integer orderId) {
         return orderService.getSmIdByOrderId(orderId);
     }
 
     @RequestMapping("/archiveOrder")
-    public Boolean archiveOrder(@RequestBody Integer orderId) {
+    public Boolean archiveOrder(@RequestParam Integer orderId) {
         return orderService.archiveOrder(orderId);
     }
 }

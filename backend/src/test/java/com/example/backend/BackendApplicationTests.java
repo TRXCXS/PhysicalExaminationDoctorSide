@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -35,6 +36,8 @@ class BackendApplicationTests {
     private CheckItemDetailedService checkItemDetailedService;
     @Autowired
     private CheckItemDetailedController checkItemDetailedController;
+    @Autowired
+    private CiDetailedReportService ciDetailedReportService;
 
     @Test
     void saveDoctorTest() throws Exception {
@@ -183,5 +186,21 @@ class BackendApplicationTests {
         System.out.println(
                 checkItemDetailedController.getAllCheckitemAndCheckitemDetailedBySetmealId(1)
         );
+    }
+
+    @Test
+    void batchUpdateTest() {
+        List<CiDetailedReport> ciDetailedReportList = new ArrayList<>();
+        CiDetailedReport ciDetailedReport1 = new CiDetailedReport();
+        CiDetailedReport ciDetailedReport2 = new CiDetailedReport();
+
+        ciDetailedReport1.setName("鹏程100");
+        ciDetailedReport1.setCidrId(1);
+        ciDetailedReportList.add(ciDetailedReport1);
+        ciDetailedReport2.setName("润填200");
+        ciDetailedReport2.setCidrId(2);
+        ciDetailedReportList.add(ciDetailedReport2);
+
+        ciDetailedReportService.updateCiDetailedReportList(ciDetailedReportList);
     }
 }

@@ -11,3 +11,7 @@ server:
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
+
+logging:
+  level:
+    com.example.backend.mapper: debug
