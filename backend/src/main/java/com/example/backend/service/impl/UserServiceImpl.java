@@ -13,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends MPJBaseServiceImpl<UserMapper, User> implements UserService {
@@ -85,5 +88,26 @@ public class UserServiceImpl extends MPJBaseServiceImpl<UserMapper, User> implem
         } else {
             return Result.success();
         }
+    }
+
+    /**
+     * 根据姓名字段获取姓名列表供用户选择
+     *
+     * @param partialName：模糊查询的姓名字段
+     * @return 用户姓名列表
+     */
+    @Override
+    public List<String> getUserNamesByFuzzyQuery(String partialName) {
+        List<User> users = userMapper.selectList(
+                new QueryWrapper<User>()
+                        .like("realName", partialName)
+        );
+
+        List<String> userNameList = new ArrayList<>();
+        for (User user : users) {
+            userNameList.add(user.getRealName());
+        }
+
+        return userNameList;
     }
 }

@@ -21,6 +21,8 @@ import java.util.List;
 @SpringBootTest
 class BackendApplicationTests {
     @Autowired
+    private UserService userService;
+    @Autowired
     private DoctorService doctorService;
     @Autowired
     private SetmealService setmealService;
@@ -202,5 +204,12 @@ class BackendApplicationTests {
         ciDetailedReportList.add(ciDetailedReport2);
 
         ciDetailedReportService.updateCiDetailedReportList(ciDetailedReportList);
+    }
+
+    @Test
+    void getUserNamesByFuzzyQueryTest() {
+        System.out.println(
+                userService.getUserNamesByFuzzyQuery("东方")
+        );
     }
 }

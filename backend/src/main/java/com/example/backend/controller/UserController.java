@@ -6,10 +6,9 @@ import com.example.backend.service.UserService;
 import com.example.backend.utils.Result;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -50,5 +49,16 @@ public class UserController {
     @RequestMapping("/register")
     public Result register(@RequestBody User user) throws Exception {
         return userService.saveUser(user);
+    }
+
+    /**
+     * 根据姓名字段获取姓名列表供用户选择
+     *
+     * @param partialName：姓名字段
+     * @return 返回的模糊查询到的姓名
+     */
+    @RequestMapping("/getUserNamesByFuzzyQuery")
+    public List<String> getUserNamesByFuzzyQuery(@RequestParam String partialName) {
+        return userService.getUserNamesByFuzzyQuery(partialName);
     }
 }

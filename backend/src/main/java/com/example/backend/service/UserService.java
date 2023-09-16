@@ -6,6 +6,8 @@ import com.example.backend.utils.Result;
 import com.github.yulichang.base.MPJBaseService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * UserService
  */
@@ -30,4 +32,12 @@ public interface UserService extends MPJBaseService<User> {
      * @throws Exception
      */
     Result saveUser(User user) throws Exception;
+
+    /**
+     * 模糊查询返回姓名列表
+     *
+     * @param partialName：模糊查询的姓名字段
+     * @return 包含该字段的姓名列表
+     */
+    List<String> getUserNamesByFuzzyQuery(String partialName);
 }
