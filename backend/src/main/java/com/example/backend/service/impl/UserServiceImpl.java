@@ -105,7 +105,9 @@ public class UserServiceImpl extends MPJBaseServiceImpl<UserMapper, User> implem
 
         List<String> userNameList = new ArrayList<>();
         for (User user : users) {
-            userNameList.add(user.getRealName());
+            if (!userNameList.contains(user.getRealName())) {
+                userNameList.add(user.getRealName());
+            }
         }
 
         return userNameList;
