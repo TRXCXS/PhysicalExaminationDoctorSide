@@ -20,7 +20,9 @@
                             <el-input v-model="selectForm.userId" />
                         </el-form-item>
                         <el-form-item label="用户姓名">
-                            <el-input v-model="selectForm.realName" />
+                            <!-- <el-input v-model="selectForm.realName" /> -->
+                            <el-autocomplete v-model="selectForm.realName"
+                                :fetch-suggestions="queryUserNamesList" />
                         </el-form-item>
                         <el-form-item label="性别">
                             <el-radio-group v-model="selectForm.sex">
@@ -149,7 +151,27 @@ export default {
             //获取列表数据
             toQuery(1);
         })
+        //获取姓名列表
+        function queryUserNamesList(queryString, cb) {
+            if (queryString) {
+                axios.get('user/getUserNamesByFuzzyQuery?partialName=' + queryString)
+                    .then(res => {
+                        let list = res.data;
 
+                        for(let i=0;i<list.length;i++){
+                            list[i]={
+                                value:list[i]
+                            }
+                        }
+                        cb(list);
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            }else{
+                cb([])
+            }
+        }
         function toReportContent(row) {
             //获取smId
             let smId;
@@ -264,6 +286,7 @@ export default {
             exit,
             toReset,
             toReportContent,
+            queryUserNamesList,
         }
     },
 };
