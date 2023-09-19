@@ -81,7 +81,8 @@
                       v-model="cireportList[ciIndex].ciDetailedReportList[cidrIndex].value"
                       :placeholder="detailedreport.name"
                       @blur="cidrCheckByBlur(ciIndex, cidrIndex)"
-                      v-if="detailedreport.type != 4" />
+                      v-if="detailedreport.type != 4" 
+                      :disabled="reportState == 2"/>
 
                     <el-input style="width: 50%; margin-right: 2px"
                       size="small"
@@ -90,6 +91,7 @@
                       v-model="cireportList[ciIndex].ciDetailedReportList[cidrIndex].value"
                       :placeholder="detailedreport.name"
                       @blur="cidrCheckByBlur(ciIndex, cidrIndex)"
+                      :disabled="reportState == 2"
                       v-else />
                     <span style="margin-right:5px;">{{ detailedreport.unit }}</span>
                     <span v-if="detailedreport.normalValueString">正常值范围：{{ detailedreport.normalValueString }}</span>
@@ -130,18 +132,19 @@
 
                 <el-table-column fixed="right"
                   label="操作"
-                  width="120">
+                  width="120"
+                  v-if="reportState == 1">
 
                   <template #default="scope">
                     <div style="display: flex;">
                       <el-button type="primary"
                         size="small"
                         @click="toUpdateOverallresult(scope.row)"
-                        v-if="reportState == 1">编辑</el-button>
+                        >编辑</el-button>
                       <el-button type="danger"
                         size="small"
                         @click="deleteOverallresult(scope.row)"
-                        v-if="reportState == 1">删除</el-button>
+                        >删除</el-button>
                     </div>
                   </template>
                 </el-table-column>
